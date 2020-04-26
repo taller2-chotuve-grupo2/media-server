@@ -1,0 +1,70 @@
+image: node:12 
+
+stages:
+  - build
+  - test
+  - deploy
+  # - docker-deploy-image
+  # - aws-deploy
+
+cache:
+  paths:
+    - node_modules/ 
+
+install_dependencies:
+  stage: build
+  script:
+    - yarn
+  artifacts:
+    paths:
+      - node_modules/
+
+testing:
+  stage: test
+  before_script:
+    - export NODE_ENV=testing
+  script: yarn test
+
+testing-report:
+  stage: test
+  before_script:
+    - export NODE_ENV=testing
+  script: 
+    - yarn testReport
+    # - now mochawesome-report --prod --scope p4d --token=$NOW_TOKEN --confirm
+  artifacts:
+    paths:
+      - mochawesome-report/
+      - coverage/
+
+deploy-static:
+  stage: deploy
+  before_script:
+    - npm install -g --unsafe-perm now
+  script: 
+  - now mochawesome-report --prod --scope p4d --token=$NOW_TOKEN --confirm
+  - now coverage --prod --scope p4d --token=$NOW_TOKEN --confirm
+  artifacts:
+    paths:
+      - mochawesome-report/
+      - coverage/
+  environment:
+    name: staging
+
+deploy-staging:
+  image: alpine
+  environment:
+    name: staging
+    url: https://esb.bgroup.com.ar/
+  stage: deploy 
+  before_script:
+    - apk add openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_KEY" >> ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  script:
+    - ssh $STAGING_USER@$STAGING_HOST 'bash -s' < ./gitlab-deploy/.gitlab-deploy.staging.sh
+  only:
+  - master
+  when: on_success # manual on prod
