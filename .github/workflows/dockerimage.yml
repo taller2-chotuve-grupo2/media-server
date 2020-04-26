@@ -16,6 +16,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build -t docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1 .
+    - name: Push the Docker image
+      run: docker push docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1
 
   test:
     
