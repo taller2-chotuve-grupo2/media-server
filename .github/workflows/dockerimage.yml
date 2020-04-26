@@ -31,7 +31,5 @@ jobs:
     - name: Pull the Docker image
       run: docker pull docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1
     - name: Test the Docker image
-      run: docker run docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1 yarn test
-      env:
-        NODE_ENV: testing
+      run: docker run -e NODE_ENV=testing docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1 yarn test
     
