@@ -15,13 +15,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build -t chotuve/media-server .
+      run: docker build -t docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1 .
 
   test:
     
     runs-on: ubuntu-latest
     needs: build
     steps:
+    - name: Pull the Docker image
+      run: docker pull docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1
     - name: Test the Docker image
-      run: docker run chotuve/media-server yarn test
+      run: docker run docker.pkg.github.com/taller2-chotuve-grupo2/media-server/media-server:0.1 yarn test
     
