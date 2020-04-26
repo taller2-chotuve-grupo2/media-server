@@ -2,7 +2,6 @@ const request = require("supertest");
 const app = require("../app");
 const config = require("../config");
 const expect = require("chai").expect;
-const models = require('../models');
 
 describe("GET /docs", () => {
   it("respond with 200", (done) => {
@@ -32,9 +31,3 @@ describe('validPort', function(){
     expect(port).to.not.be.equal(0)
   })
 });
-
-describe('Database tests', function() {
-  it('should connect to database',async () => {
-   await models.sequelize.authenticate()
-  })
-})
