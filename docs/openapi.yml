@@ -1,0 +1,235 @@
+openapi: 3.0.1
+info:
+  title: Chotuve Media Server
+  description: 'Api para manejar recursos desde el media server'
+  version: 1.0.0
+externalDocs:
+  description: Enunciado
+  url: https://taller-de-programacion-2.github.io/2020-04-16-trabajo-practico/
+servers:
+- url: https://media-server.heroku.com.ar/api
+tags:
+- name: resource
+  description: Upload and get Resource
+
+paths:
+  /resource/{resourceId}:
+    get:
+      parameters:
+      - name: resourceId
+        in: path
+        description: ID of Resource to return
+        required: true
+        schema:
+          type: string
+      tags:
+      - resource
+      summary: Get an existing resource
+      operationId: getResource
+      responses:
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceSaved'
+          
+      security:
+      - api_key:
+        - write:pets
+        - read:pets
+    delete:
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID of Resource to delete
+          required: true
+          schema:
+            type: string
+        tags:
+        - resource
+        summary: Get an existing resource
+        operationId: deleteResource
+        responses:
+          400:
+            description: Invalid ID supplied
+            content: {}
+          404:
+            description: Resource not found
+            content: {}
+          405:
+            description: Validation exception
+            content: {}
+          200:
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResourceDeleted'
+        
+  /resource:
+    post:
+      tags:
+      - resource
+      summary: Add a new resource to the server
+      operationId: addResource
+      requestBody:
+        description: Resource object that needs to be added to the server
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+        required: true
+      responses:
+        400:
+          description: Invalid input
+          content: {}
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceResponse'
+      security:
+      - api_key:
+        - write:pets
+        - read:pets
+  /resource/user/{userId}:
+    get:
+      parameters:
+      - name: userId
+        in: path
+        description: ID of Resource to return
+        required: true
+        schema:
+          type: string
+      tags:
+      - resource
+      summary: Get resources by user Id
+      operationId: getResourceByUser
+      responses:
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Pet not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceSaved'
+          
+      security:
+      - api_key:
+        - write:pets
+        - read:pets
+components:
+  schemas:
+    Metadata:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+          example: Mi video
+        description:
+          type: string
+          example: Mi video video description
+        location:
+          type: string
+          example: Argentina
+        publication_timestamp:
+          type: string
+          format: date-time
+        visibility:
+          type: string
+          example: public
+    Resource:
+      required:
+      - metadata
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        name:
+          type: string
+          example: video.mp4
+        size:
+          type: integer
+          example: 300423
+        created_at:
+          type: string
+          format: date-time
+        owner:
+          type: string
+          example: JfdjE734dj
+        file:
+          type: string
+          format: binary
+    
+    ResourceDeleted:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: "Recurso eliminado satisfactoriamente"
+      
+    ResourceSaved:
+      required:
+      - metadata
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        name:
+          type: string
+          example: video.mp4
+        size:
+          type: integer
+          example: 300423
+        created_at:
+          type: string
+          format: date-time
+        owner:
+          type: string
+          example: JfdjE734dj
+        file:
+          type: string
+          example: "www.server.com/media/video.mp4"
+    ResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: jsg934fd
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
