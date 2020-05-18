@@ -1,8 +1,7 @@
 const express = require("express");
-const path = require("path");
 const config = require("./config");
-const homeRoutes = require("./routes")
-const logger = require('./logger');
+const router = require("./routes")
+const {logger, middlewareLogger} = require('./logger');
   
 const init = () => {
 
@@ -11,13 +10,15 @@ const init = () => {
  
   module.exports = app;
 
-  app.use("/", homeRoutes)
+  app.use(express.json())
 
-  // app.use(errors.handle);
-  logger.info(`started app on port ${port}`)
+
+  app.use("/", router)
+  app.use(middlewareLogger)
+
+  logger.info(`Started app on http://localhost:${port}`)
   app.listen(port);
 
-  // logger.info(`Listening on port: ${port}`);
 };
 
 init();

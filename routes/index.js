@@ -11,7 +11,8 @@ router.get("/health", function (req, res) {
         return res.send("OK");
         });
         
-router.use('/docs', express.static(path.join(__dirname, 'openapi-html')));
+router.use('/docs', express.static('docs'))
+
 
 
 module.exports = router
