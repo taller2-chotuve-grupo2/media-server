@@ -3,6 +3,6 @@ exports.auth = (req, res, next) => {
   if (req.headers.authorization === authorizedHeader) {
     next()
   } else {
-    res.sendStatus(403)
+    res.sendStatus(401)
   }
 }
