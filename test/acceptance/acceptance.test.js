@@ -1,6 +1,6 @@
 const request = require('supertest')
 const app = require('../../app')
-// const config = require('../../config')
+const config = require('../../config')
 const expect = require('chai').expect
 // const dataCreator = require('../../dataCreator')
 
@@ -34,22 +34,22 @@ describe('GET /resource', () => {
     })
   })
 
-  //   context('With valid auth token', () => {
-  //     it('respond with 404 if no resources found', (done) => {
-  //         request(app).get('/resource/notvalid').set('authorization', config.authToken)
-  //         .expect(response => {
-  //           expect(response.statusCode).to.equal(404)
-  //         })
-  //         .end(done)
-  //     })
+  context('With valid auth token', () => {
+    it('respond with 404 if no resources found', (done) => {
+      request(app).get('/resource/notvalid').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(404)
+        })
+        .end(done)
+    })
 
-//     it('respond with 200 if resources found', (done) => {
-//         request(app).get('/resource/1').set('authorization', config.authToken)
-//         .expect(response => {
-//           expect(response.statusCode).to.equal(200)
-//           // expect(response.body.message).to.contain(messageExpected)
-//         })
-//         .end(done)
-//     })
-//   })
+    it('respond with 200 if resources found', (done) => {
+      request(app).get('/resource/1').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+          // expect(response.body.message).to.contain(messageExpected)
+        })
+        .end(done)
+    })
+  })
 })

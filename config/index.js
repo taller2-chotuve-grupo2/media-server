@@ -11,7 +11,8 @@ const config = {
       password: process.env.DB_PASSWORD
     },
     environment: process.env.NODE_ENV || 'development',
-    port: process.env.PORT || 3030
+    port: process.env.PORT || 3030,
+    token: process.env.AUTH_TOKEN || '123'
   }
 }
 

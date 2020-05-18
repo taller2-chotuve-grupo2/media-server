@@ -18,7 +18,7 @@
     "start-dev": "nodemon app.js",
     "lint": "standard",
     "lint-fix": "standard --fix",
-    "test": "NODE_ENV=testing NODE_PORT=3020 mocha --trace-warnings ./test/* --exit && yarn lint",
+    "test": "NODE_ENV=testing PORT=3020 mocha --trace-warnings ./test/* --exit && yarn lint",
     "testReport": "nyc --reporter=html mocha ./test/* --reporter mochawesome --reporter-options reportFilename=index.html --exit"
   },
   "standard": {
