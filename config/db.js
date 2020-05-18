@@ -1,9 +1,9 @@
-const config = require('.').common.database;
+const config = require('.').common.database
 
 module.exports = {
   local: {
     dialect: 'sqlite',
-    storage: ':memory:',
+    storage: ':memory:'
   },
   development: {
     username: config.username,
@@ -15,7 +15,7 @@ module.exports = {
   },
   testing: {
     dialect: 'sqlite',
-    storage: ':memory:',
+    storage: ':memory:'
   },
   production: {
     username: config.username,
@@ -25,4 +25,4 @@ module.exports = {
     dialect: 'postgres',
     logging: false
   }
-};
+}
