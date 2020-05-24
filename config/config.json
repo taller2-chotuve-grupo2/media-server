@@ -15,6 +15,11 @@
     "dialect": "mysql",
     "operatorsAliases": false
   },
+  "testing": {
+    "dialect": "sqlite",
+    "storage": ":memory:",
+    "logging": false
+  },
   "production": {
     "username": "root",
     "password": null,
