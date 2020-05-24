@@ -7,7 +7,7 @@ externalDocs:
   description: Enunciado
   url: https://taller-de-programacion-2.github.io/2020-04-16-trabajo-practico/
 servers:
-- url: https://media-server.heroku.com.ar/api
+- url: https://media-server-staging-fiuba.herokuapp.com/
 tags:
 - name: resource
   description: Upload and get Resource
