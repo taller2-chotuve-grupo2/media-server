@@ -42,5 +42,8 @@
     "standard": "^14.3.4",
     "supertest": "^4.0.2",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "spectacle": "^6.0.3"
   }
 }

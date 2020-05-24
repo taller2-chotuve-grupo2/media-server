@@ -11,7 +11,7 @@ router.get('/health', function (req, res) {
   return res.send('OK')
 })
 
-router.use('/docs', express.static('docs'))
+router.use('/docs', express.static('public'))
 
 router.use('/resource', auth, resource)
 
