@@ -14,5 +14,15 @@ async function getOneByTitle (title) {
   return result
 }
 
+async function getOneById (id) {
+  const result = await Resource.findOne({
+    where: {
+      id: id
+    }
+  })
+  return result
+}
+
 exports.createResource = createResource
 exports.getOneByTitle = getOneByTitle
+exports.getOneById = getOneById

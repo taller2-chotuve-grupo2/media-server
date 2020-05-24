@@ -41,6 +41,7 @@
     "sqlite3": "^4.1.1",
     "standard": "^14.3.4",
     "supertest": "^4.0.2",
+    "uuid": "^8.1.0",
     "winston": "^3.2.1"
   }
 }

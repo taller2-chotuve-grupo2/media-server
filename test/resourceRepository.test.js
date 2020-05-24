@@ -34,4 +34,15 @@ describe('resourceRepository', () => {
     }
     return expect(result.dataValues.title).to.be.eql(data.title)
   })
+
+  it('should return a video by id', async function () {
+    const data = {
+      id: '1'
+    }
+    var result = await resourceRepository.createResource(data)
+    if (result) {
+      result = await resourceRepository.getOneById(data.id)
+    }
+    return expect(result.dataValues.id).to.be.eql(data.id)
+  })
 })
