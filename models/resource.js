@@ -3,10 +3,13 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     path: DataTypes.STRING,
     size: DataTypes.STRING,
-    owner: DataTypes.STRING
+    owner: DataTypes.STRING,
+    title: DataTypes.STRING,
+    description: DataTypes.STRING,
+    location: DataTypes.STRING,
+    visibility: DataTypes.STRING
   }, {})
   Resource.associate = function (models) {
-    Resource.hasOne(models.Metadata)
     Resource.hasMany(models.Comment)
     Resource.hasMany(models.Reaction)
     // associations can be defined here
