@@ -45,4 +45,9 @@ describe('resourceRepository', () => {
     }
     return expect(result.dataValues.id).to.be.eql(data.id)
   })
+
+  it('should return null if get by id fails', async function () {
+    const result = await resourceRepository.getOneById('RICHARD')
+    return expect(result).to.be.null
+  })
 })
