@@ -1,6 +1,6 @@
 exports.auth = (req, res, next) => {
-  const authorizedHeader = '123'
-  if (req.headers.authorization === authorizedHeader) {
+  const authorization = 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'
+  if (req.headers.authorization === authorization) {
     next()
   } else {
     res.sendStatus(401)

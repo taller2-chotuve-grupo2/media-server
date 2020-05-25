@@ -12,7 +12,7 @@ const config = {
     },
     environment: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 3030,
-    token: process.env.AUTH_TOKEN || '123'
+    token: process.env.AUTH_TOKEN || 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'
   }
 }
 

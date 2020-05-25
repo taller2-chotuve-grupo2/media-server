@@ -24,6 +24,9 @@
   "standard": {
     "env": [
       "mocha"
+    ],
+    "ignore": [
+      "/public/"
     ]
   },
   "dependencies": {
