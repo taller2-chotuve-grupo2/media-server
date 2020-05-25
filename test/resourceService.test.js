@@ -1,34 +1,22 @@
 const expect = require('chai').expect
 const resourceService = require('../services/resourceService.js')
-const resourceRepositoryMockFalse = require('../repositories/mocks/resourceRepositoryMockFalse.js')
-const resourceRepositoryMockTrue = require('../repositories/mocks/resourceRepositoryMockTrue.js')
+const resourceRepositoryMock = require('../repositories/mocks/resourceRepositoryMock.js')
+const resourceRepositoryFailingMock = require('../repositories/mocks/resourceRepositoryFailingMock.js')
 
 describe('resourceService', () => {
-  it('returns true if everything is ok', () => {
+  it('returns true if everything is ok', async function () {
     const data = {
-      name: 'My first name',
-      path: 'www.richard.com',
-      size: '1MB',
-      owner: 'RICHARDINHO',
-      title: 'REPEATED TITLE',
-      description: 'ASDASD',
-      location: 'Argentina',
-      visibility: 'Public'
+      id: '0800-R1CH4RD-555'
     }
-    return expect(resourceService.upload(data, resourceRepositoryMockTrue)).to.be.true
+    const result = await resourceService.upload(data, resourceRepositoryMock)
+    return expect(result).to.be.true
   })
 
-  it('returns false if video upload fails', () => {
+  it('returns false if video upload fails', async function () {
     const data = {
-      name: 'My first name',
-      path: 'www.richard.com',
-      size: '1MB',
-      owner: 'RICHARDINHO',
-      title: 'REPEATED TITLE',
-      description: 'ASDASD',
-      location: 'Argentina',
-      visibility: 'Public'
+      name: 'Bad video'
     }
-    return expect(resourceService.upload(data, resourceRepositoryMockFalse)).to.be.false
+    const result = await resourceService.upload(data, resourceRepositoryFailingMock)
+    return expect(result).to.be.false
   })
 })

@@ -1,5 +1,5 @@
-function upload (videoData, repository) {
-  var aux = repository.getOneByTitle(videoData)
+async function upload (videoData, repository) {
+  var aux = await repository.getOneByTitle(videoData)
   if (!aux) {
     return false
   }

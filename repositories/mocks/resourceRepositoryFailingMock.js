@@ -1,5 +1,5 @@
 function getOneByTitle (title) {
-  return true
+  return null
 }
 
 exports.getOneByTitle = getOneByTitle
