@@ -1,5 +1,13 @@
+var uuid = require('uuid').v4
+
 module.exports = (sequelize, DataTypes) => {
   const Resource = sequelize.define('Resource', {
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      allowNull: false,
+      defaultValue: uuid
+    },
     name: DataTypes.STRING,
     path: DataTypes.STRING,
     size: DataTypes.STRING,

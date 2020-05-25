@@ -15,7 +15,8 @@ module.exports = {
   },
   testing: {
     dialect: 'sqlite',
-    storage: ':memory:'
+    storage: ':memory:',
+    logging: false
   },
   production: {
     username: config.username,
