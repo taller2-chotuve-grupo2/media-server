@@ -9,4 +9,8 @@ router.get('/:id', function (req, res) {
   }
 })
 
+router.post('/', function (req, res) {
+  return res.sendStatus(200)
+})
+
 module.exports = router
