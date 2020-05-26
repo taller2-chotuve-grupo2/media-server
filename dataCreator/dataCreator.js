@@ -8,7 +8,7 @@ const resourceData = {
   size: '1MB',
   owner: 'RICHARDINHO',
   title: 'RICHARD VIDEO',
-  description: 'ASDASD',
+  description: 'A description',
   location: 'Argentina',
   visibility: 'Public'
 }
