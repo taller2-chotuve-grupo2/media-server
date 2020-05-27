@@ -52,6 +52,15 @@ describe('End-to-End tests', () => {
           })
           .end(done)
       })
+
+      it('should give the resource if found', (done) => {
+        request(app).get('/resource/1').set('authorization', config.common.token)
+          .end((req, res) => {
+            const resourceId = res.body.id
+            expect(resourceId).to.be.eql('1')
+            done()
+          })
+      })
     })
   })
 

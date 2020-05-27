@@ -9,7 +9,17 @@ router.get('/:id', async function (req, res) {
   if (!resource) {
     return res.sendStatus(404)
   }
-  return res.sendStatus(200)
+  return res.status(200).send({
+    id: resource.id,
+    name: resource.name,
+    path: resource.path,
+    size: resource.size,
+    owner: resource.owner,
+    title: resource.title,
+    description: resource.description,
+    location: resource.location,
+    visibility: resource.visibility
+  })
 })
 
 router.post('/', async function (req, res) {
