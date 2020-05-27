@@ -10,7 +10,7 @@ function getOneById (id) {
 }
 
 function createResource (data) {
-  return true
+  return data
 }
 
 exports.getOneByTitle = getOneByTitle

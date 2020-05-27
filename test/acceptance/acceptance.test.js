@@ -66,6 +66,7 @@ describe('End-to-End tests', () => {
 
   context('POST /resource ', () => {
     const data = {
+      id: '100',
       name: 'My first name',
       path: 'www.richard.com',
       size: '1MB',
@@ -81,6 +82,15 @@ describe('End-to-End tests', () => {
         .send(data)
         .expect(response => {
           expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('respond with resource id if post succeeded', (done) => {
+      request(app).post('/resource').set('authorization', config.common.token)
+        .send(data)
+        .expect(response => {
+          expect(response.body.id).to.equal(data.id)
         })
         .end(done)
     })

@@ -15,20 +15,20 @@ describe('resourceService', () => {
   })
 
   context('Upload', () => {
-    it('returns true if upload is ok', async function () {
+    it('returns resource id if upload is ok', async function () {
       const data = {
         id: '0800-R1CH4RD-555'
       }
       const result = await resourceService.upload(data, resourceRepositoryMock)
-      return expect(result).to.be.true
+      return expect(result).to.be.eql('0800-R1CH4RD-555')
     })
 
-    it('returns false if resource upload fails', async function () {
+    it('returns null if resource upload fails', async function () {
       const data = {
         name: 'Bad video'
       }
       const result = await resourceService.upload(data, resourceRepositoryFailingMock)
-      return expect(result).to.be.false
+      return expect(result).to.be.null
     })
   })
 
@@ -64,7 +64,7 @@ describe('resourceService', () => {
           visibility: 'Public'
         }
         const result = await resourceService.upload(data, resourceRepository)
-        return expect(result).to.be.true
+        return expect(result).to.eql(data.id)
       })
     })
   })

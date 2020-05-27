@@ -24,9 +24,11 @@ router.get('/:id', async function (req, res) {
 
 router.post('/', async function (req, res) {
   const data = req.body
-  const result = await resourceService.upload(data, resourceRepository)
-  if (result) {
-    return res.sendStatus(200)
+  const resourceId = await resourceService.upload(data, resourceRepository)
+  if (resourceId) {
+    return res.status(200).send({
+      id: resourceId
+    })
   }
   return res.sendStatus(400)
 })
