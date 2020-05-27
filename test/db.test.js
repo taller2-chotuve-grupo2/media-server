@@ -12,5 +12,5 @@ before('set env', () => {
 })
 
 beforeEach('set env', async () => {
-  models.sequelize.sync()
+  await models.sequelize.sync()
 })
