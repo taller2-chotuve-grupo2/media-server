@@ -1,13 +1,13 @@
 async function upload (resourceData, repository) {
   var aux = await repository.getOneByTitle(resourceData.title)
   if (aux) {
-    return false
+    return null
   }
   aux = await repository.createResource(resourceData)
   if (!aux) {
-    return false
+    return null
   }
-  return true
+  return aux.id
 }
 
 async function getById (id, repository) {
