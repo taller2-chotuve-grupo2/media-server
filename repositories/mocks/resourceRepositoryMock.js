@@ -1,7 +1,18 @@
 function getOneByTitle (title) {
+  return null
+}
+
+function getOneById (id) {
   return ({
-    id: '0800-R1CH4RD-555'
+    id: id,
+    name: 'Mocked answer'
   })
 }
 
+function createResource (data) {
+  return true
+}
+
 exports.getOneByTitle = getOneByTitle
+exports.getOneById = getOneById
+exports.createResource = createResource
