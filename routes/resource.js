@@ -3,12 +3,13 @@ var router = express.Router()
 const resourceService = require('../services/resourceService.js')
 const resourceRepository = require('../repositories/resourceRepository.js')
 
-router.get('/:id', function (req, res) {
-  if (req.params.id === '1') {
-    return res.sendStatus(200)
-  } else {
+router.get('/:id', async function (req, res) {
+  const id = req.params.id
+  const resource = await resourceService.getById(id, resourceRepository)
+  if (!resource) {
     return res.sendStatus(404)
   }
+  return res.sendStatus(200)
 })
 
 router.post('/', async function (req, res) {

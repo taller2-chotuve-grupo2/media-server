@@ -77,7 +77,7 @@ describe('End-to-End tests', () => {
     })
 
     it('respond with 400 if post failed', (done) => {
-      //dataCreator is seeding a resource with this title
+      // dataCreator is seeding a resource with this title
       const failingData = {
         title: 'RICHARD VIDEO'
       }
