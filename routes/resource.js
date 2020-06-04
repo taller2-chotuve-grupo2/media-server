@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 const resourceService = require('../services/resourceService.js')
+const reactionService = require('../services/reactionService.js')
 const resourceRepository = require('../repositories/resourceRepository.js')
 
 router.get('/:id', async function (req, res) {
@@ -31,6 +32,22 @@ router.post('/', async function (req, res) {
     })
   }
   return res.sendStatus(400)
+})
+
+router.post('/:id/reaction', async function (req, res) {
+  const id = req.params.id
+  const data = req.body
+  const resource = await resourceService.getById(id, resourceRepository)
+  if (!resource) {
+    return res.sendStatus(400)
+  }
+
+  var result = await reactionService.reactToResource(resource, data)
+  if (!result) {
+    return res.sendStatus(400)
+  }
+
+  return res.sendStatus(200)
 })
 
 module.exports = router

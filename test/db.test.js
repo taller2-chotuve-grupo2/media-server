@@ -1,5 +1,6 @@
 const models = require('../models')
 const config = require('../config')
+const dataCreator = require('../dataCreator/dataCreator.js')
 
 describe('Database tests', function () {
   it('should connect to database', async () => {
@@ -13,4 +14,9 @@ before('set env', () => {
 
 beforeEach('set env', async () => {
   await models.sequelize.sync()
+})
+
+// Clean tables before each test in any context
+beforeEach('clean data', async () => {
+  await dataCreator.cleanTables()
 })

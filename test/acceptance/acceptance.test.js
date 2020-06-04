@@ -6,12 +6,9 @@ const dataCreator = require('../../dataCreator/dataCreator.js')
 // const resourceRepository = require('../../repositories/resourceRepository.js')
 
 describe('End-to-End tests', () => {
+  // Populate data for End-To-End tests only
   beforeEach('Generate Test Data', async () => {
     await dataCreator.seedAll()
-  })
-
-  afterEach('clean data', async () => {
-    await dataCreator.cleanTables()
   })
 
   context('GET /resource', () => {
@@ -102,6 +99,34 @@ describe('End-to-End tests', () => {
       }
       request(app).post('/resource').set('authorization', config.common.token)
         .send(failingData)
+        .expect(response => {
+          expect(response.statusCode).to.equal(400)
+        })
+        .end(done)
+    })
+  })
+
+  context('POST /resource/{id}/reaction', () => {
+    it('respond with 200 if post succedeed', (done) => {
+      // dataCreator is seeding a resource with this title
+      const data = {
+        message: 'Me gusta'
+      }
+      request(app).post('/resource/1/reaction').set('authorization', config.common.token)
+        .send(data)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('respond with 400 if resource does not exists', (done) => {
+      // dataCreator is seeding a resource with this title
+      const data = {
+        message: 'Me gusta'
+      }
+      request(app).post('/resource/2/reaction').set('authorization', config.common.token)
+        .send(data)
         .expect(response => {
           expect(response.statusCode).to.equal(400)
         })

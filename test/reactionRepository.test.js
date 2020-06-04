@@ -8,7 +8,7 @@ describe('reactionRepository', () => {
     }
 
     var reaction = await reactionRepository.createReaction(data)
-    return expect(reaction.id).to.be.eql(1)
+    return expect(reaction.id).to.be.eql(2)
   })
 
   it('should get a reaction by id', async function () {
