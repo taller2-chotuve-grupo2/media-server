@@ -1,5 +1,11 @@
 const Resource = require('../models').Resource
+const Reaction = require('../models').Reaction
 const sequelize = require('../models').sequelize
+
+const reactionData = {
+  status: 'Me gusta',
+  IdResource: '1'
+}
 
 const resourceData = {
   id: '1',
@@ -10,7 +16,8 @@ const resourceData = {
   title: 'RICHARD VIDEO',
   description: 'A description',
   location: 'Argentina',
-  visibility: 'Public'
+  visibility: 'Public',
+  reactions: [reactionData]
 }
 
 async function seedAll () {
@@ -18,7 +25,8 @@ async function seedAll () {
 }
 
 async function seedResources () {
-  await Resource.upsert(resourceData)
+  var asd = await Resource.create(resourceData)
+  asd.addReaction(await Reaction.create(reactionData))
 }
 
 async function cleanTables () {
