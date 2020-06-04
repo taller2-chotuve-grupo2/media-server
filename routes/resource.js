@@ -5,6 +5,7 @@ const reactionService = require('../services/reactionService.js')
 const commentService = require('../services/commentService.js')
 const resourceRepository = require('../repositories/resourceRepository.js')
 const reactionHelpers = require('../helpers/reactions_helpers.js')
+const commentHelpers = require('../helpers/comments_helpers.js')
 
 router.get('/:id', async function (req, res) {
   const id = req.params.id
@@ -75,6 +76,18 @@ router.post('/:id/comment', async function (req, res) {
     return res.sendStatus(400)
   }
   return res.sendStatus(200)
+})
+
+router.get('/:id/comment', async function (req, res) {
+  const id = req.params.id
+  var resource = await resourceService.getById(id, resourceRepository)
+  if (!resource) {
+    return res.sendStatus(400)
+  }
+  var comments = await resource.getComments()
+
+  var commentList = commentHelpers.buildCommentsList(comments)
+  return res.status(200).send(commentList)
 })
 
 module.exports = router
