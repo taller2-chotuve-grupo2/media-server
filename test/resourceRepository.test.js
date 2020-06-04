@@ -1,7 +1,12 @@
 const expect = require('chai').expect
 const resourceRepository = require('../repositories/resourceRepository.js')
+const dataCreator = require('../dataCreator/dataCreator.js')
 
 describe('resourceRepository', () => {
+  beforeEach('Generate Test Data', async () => {
+    await dataCreator.cleanTables()
+  })
+
   it('should save a video', async function () {
     const data = {
       name: 'My first name',

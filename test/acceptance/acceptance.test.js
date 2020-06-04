@@ -133,4 +133,24 @@ describe('End-to-End tests', () => {
         .end(done)
     })
   })
+
+  context('GET /resource/{id}/reaction', () => {
+    it('respond with 200 if get succedeed', (done) => {
+      // dataCreator is seeding a resource with this title
+      request(app).get('/resource/1/reaction').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('respond with a list of reactions in the body', (done) => {
+      // dataCreator is seeding a resource with this title
+      request(app).get('/resource/1/reaction').set('authorization', config.common.token)
+        .expect(response => {
+          return expect(response.body[0]).not.to.be.null
+        })
+        .end(done)
+    })
+  })
 })

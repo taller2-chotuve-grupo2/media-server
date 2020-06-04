@@ -3,6 +3,7 @@ var router = express.Router()
 const resourceService = require('../services/resourceService.js')
 const reactionService = require('../services/reactionService.js')
 const resourceRepository = require('../repositories/resourceRepository.js')
+const reactionHelpers = require('../helpers/reactions_helpers.js')
 
 router.get('/:id', async function (req, res) {
   const id = req.params.id
@@ -48,6 +49,16 @@ router.post('/:id/reaction', async function (req, res) {
   }
 
   return res.sendStatus(200)
+})
+
+router.get('/:id/reaction', async function (req, res) {
+  const id = req.params.id
+  var resource = await resourceService.getById(id, resourceRepository)
+
+  var reactions = await resource.getReactions()
+
+  var reactionList = reactionHelpers.buildReactionsList(reactions)
+  return res.status(200).send(reactionList)
 })
 
 module.exports = router
