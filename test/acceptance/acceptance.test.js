@@ -108,9 +108,8 @@ describe('End-to-End tests', () => {
 
   context('POST /resource/{id}/reaction', () => {
     it('respond with 200 if post succedeed', (done) => {
-      // dataCreator is seeding a resource with this title
       const data = {
-        message: 'Me gusta'
+        status: 'Me gusta'
       }
       request(app).post('/resource/1/reaction').set('authorization', config.common.token)
         .send(data)
@@ -121,9 +120,8 @@ describe('End-to-End tests', () => {
     })
 
     it('respond with 400 if resource does not exists', (done) => {
-      // dataCreator is seeding a resource with this title
       const data = {
-        message: 'Me gusta'
+        status: 'Me gusta'
       }
       request(app).post('/resource/2/reaction').set('authorization', config.common.token)
         .send(data)
@@ -136,7 +134,6 @@ describe('End-to-End tests', () => {
 
   context('GET /resource/{id}/reaction', () => {
     it('respond with 200 if get succedeed', (done) => {
-      // dataCreator is seeding a resource with this title
       request(app).get('/resource/1/reaction').set('authorization', config.common.token)
         .expect(response => {
           expect(response.statusCode).to.equal(200)
@@ -145,10 +142,61 @@ describe('End-to-End tests', () => {
     })
 
     it('respond with a list of reactions in the body', (done) => {
-      // dataCreator is seeding a resource with this title
       request(app).get('/resource/1/reaction').set('authorization', config.common.token)
         .expect(response => {
           return expect(response.body[0]).not.to.be.null
+        })
+        .end(done)
+    })
+  })
+
+  context('POST /resource/{id}/comment', () => {
+    it('respond with 200 if post succedeed', (done) => {
+      const data = {
+        message: 'Me gusta tu video'
+      }
+      request(app).post('/resource/1/comment').set('authorization', config.common.token)
+        .send(data)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('respond with 400 if resource does not exists', (done) => {
+      const data = {
+        message: 'Me gusta'
+      }
+      request(app).post('/resource/2/comment').set('authorization', config.common.token)
+        .send(data)
+        .expect(response => {
+          expect(response.statusCode).to.equal(400)
+        })
+        .end(done)
+    })
+  })
+
+  context('GET /resource/{id}/comment', () => {
+    it('respond with 200 if get succedeed', (done) => {
+      request(app).get('/resource/1/comment').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('respond with 400 if resource does not exist', (done) => {
+      request(app).get('/resource/2/comment').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(400)
+        })
+        .end(done)
+    })
+
+    it('respond with a list of comments in the body', (done) => {
+      request(app).get('/resource/1/comment').set('authorization', config.common.token)
+        .expect(response => {
+          return expect(response.body[0].message).to.be.eql('Buen video Richard!')
         })
         .end(done)
     })
