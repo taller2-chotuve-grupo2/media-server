@@ -6,6 +6,9 @@ module.exports = {
   testing: {
     auth_sv: 'https://httpbin.org/status/200'
   },
+  testing_failing_auth: {
+    auth_sv: 'https://httpbin.org/status/400'
+  },
   production: {
     auth_sv: ''
   }
