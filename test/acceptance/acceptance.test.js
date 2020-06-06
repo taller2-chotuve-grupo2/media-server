@@ -22,13 +22,10 @@ describe('End-to-End tests', () => {
         expect(response.statusCode).to.equal(401)
       })
 
-      it('Invalid auth token should return unauthorized', (done) => {
-        request(app).get('/resource')
+      it('Invalid auth token should return unauthorized', async () => {
+        const response = await request(app).get('/resource')
           .set('authorization', 'invalid token')
-          .expect(response => {
-            expect(response.statusCode).to.equal(401)
-          })
-          .end(done)
+        expect(response.statusCode).to.equal(401)
       })
     })
 
@@ -176,20 +173,14 @@ describe('End-to-End tests', () => {
     beforeEach('Generate Test Data', async () => {
       await dataCreator.seedAll()
     })
-    it('respond with 200 if get succedeed', (done) => {
-      request(app).get('/resource/1/reaction').set('authorization', config.common.token)
-        .expect(response => {
-          expect(response.statusCode).to.equal(200)
-        })
-        .end(done)
+    it('respond with 200 if get succedeed', async () => {
+      const response = await request(app).get('/resource/1/reaction').set('authorization', config.common.token)
+      expect(response.statusCode).to.equal(200)
     })
 
-    it('respond with a list of reactions in the body', (done) => {
-      request(app).get('/resource/1/reaction').set('authorization', config.common.token)
-        .expect(response => {
-          return expect(response.body[0]).not.to.be.null
-        })
-        .end(done)
+    it('respond with a list of reactions in the body', async () => {
+      const response = await request(app).get('/resource/1/reaction').set('authorization', config.common.token)
+      return expect(response.body[0]).not.to.be.null
     })
   })
 
