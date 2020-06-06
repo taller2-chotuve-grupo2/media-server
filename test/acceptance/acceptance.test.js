@@ -17,6 +17,14 @@ describe('End-to-End tests', () => {
     })
 
     context('With invalid token', () => {
+      beforeEach('Change env variable', () => {
+        config.common.environment = 'testing_failing_auth'
+      })
+
+      afterEach('Reset env variable', () => {
+        config.common.environment = 'testing'
+      })
+
       it('No auth token should return unauthorized', async () => {
         const response = await request(app).get('/resource')
         expect(response.statusCode).to.equal(401)
@@ -44,6 +52,14 @@ describe('End-to-End tests', () => {
       await dataCreator.seedAll()
     })
     context('With invalid token', () => {
+      beforeEach('Change env variable', () => {
+        config.common.environment = 'testing_failing_auth'
+      })
+
+      afterEach('Reset env variable', () => {
+        config.common.environment = 'testing'
+      })
+
       const baseRequest = request(app).get('/resource/23')
 
       it('No auth token should return unauthorized', (done) => {
