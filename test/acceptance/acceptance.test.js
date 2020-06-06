@@ -7,11 +7,45 @@ const dataCreator = require('../../dataCreator/dataCreator.js')
 
 describe('End-to-End tests', () => {
   // Populate data for End-To-End tests only
-  beforeEach('Generate Test Data', async () => {
-    await dataCreator.seedAll()
+  context('GET /resource', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
+
+    afterEach('Generate Test Data', async () => {
+      await dataCreator.cleanTables()
+    })
+
+    context('With invalid token', () => {
+      it('No auth token should return unauthorized', async () => {
+        const response = await request(app).get('/resource')
+        expect(response.statusCode).to.equal(401)
+      })
+
+      it('Invalid auth token should return unauthorized', (done) => {
+        request(app).get('/resource')
+          .set('authorization', 'invalid token')
+          .expect(response => {
+            expect(response.statusCode).to.equal(401)
+          })
+          .end(done)
+      })
+    })
+
+    context('With valid auth token', () => {
+      it('respond with 200 if resources found', async () => {
+        const response = await request(app).get('/resource').set('authorization', config.common.token)
+        expect(response.statusCode).to.equal(200)
+        const resources = response.body
+        expect(resources.length).to.be.greaterThan(0)
+      })
+    })
   })
 
-  context('GET /resource', () => {
+  context('GET /resource/{id}', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
     context('With invalid token', () => {
       const baseRequest = request(app).get('/resource/23')
 
@@ -62,6 +96,9 @@ describe('End-to-End tests', () => {
   })
 
   context('POST /resource ', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
     const data = {
       id: '100',
       name: 'My first name',
@@ -107,6 +144,9 @@ describe('End-to-End tests', () => {
   })
 
   context('POST /resource/{id}/reaction', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
     it('respond with 200 if post succedeed', (done) => {
       const data = {
         status: 'Me gusta'
@@ -133,6 +173,9 @@ describe('End-to-End tests', () => {
   })
 
   context('GET /resource/{id}/reaction', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
     it('respond with 200 if get succedeed', (done) => {
       request(app).get('/resource/1/reaction').set('authorization', config.common.token)
         .expect(response => {
@@ -151,6 +194,9 @@ describe('End-to-End tests', () => {
   })
 
   context('POST /resource/{id}/comment', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
     it('respond with 200 if post succedeed', (done) => {
       const data = {
         message: 'Me gusta tu video'
@@ -177,6 +223,9 @@ describe('End-to-End tests', () => {
   })
 
   context('GET /resource/{id}/comment', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
     it('respond with 200 if get succedeed', (done) => {
       request(app).get('/resource/1/comment').set('authorization', config.common.token)
         .expect(response => {
