@@ -7,7 +7,22 @@ const resourceRepository = require('../repositories/resourceRepository.js')
 const reactionHelpers = require('../helpers/reactions_helpers.js')
 const commentHelpers = require('../helpers/comments_helpers.js')
 
-router.get('/:id', async function (req, res) {
+const getResources = async (req, res) => {
+  const limit = 20
+  try {
+    const resources = await resourceService.getAllByDate(limit, resourceRepository)
+    res.status(200)
+    return res.send(resources)
+  } catch (e) {
+    res.status(404)
+    console.log(e)
+    return res.send('ERROR IN GET RESOURCES')
+  }
+}
+
+router.get('/', getResources)
+
+router.get('/:id/', async function (req, res) {
   const id = req.params.id
   const resource = await resourceService.getById(id, resourceRepository)
   if (!resource) {

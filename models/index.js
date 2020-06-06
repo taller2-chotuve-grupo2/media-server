@@ -8,8 +8,12 @@ const basename = path.basename(__filename)
 const config = require('../config')
 const dbConfig = require('../config/db')[config.common.environment]
 const db = {}
-
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
+let sequelize
+if (dbConfig.uri) {
+  sequelize = new Sequelize(dbConfig.uri)
+} else {
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
+}
 fs
   .readdirSync(__dirname)
   .filter(file => {

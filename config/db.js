@@ -6,6 +6,7 @@ module.exports = {
     storage: ':memory:'
   },
   development: {
+    uri: config.uri,
     username: config.username,
     password: config.password,
     database: config.name,

@@ -15,5 +15,10 @@ async function getById (id, repository) {
   return resource
 }
 
+async function getAllByDate (limit, repository) {
+  return await repository.getAllByDate(limit)
+}
+
+exports.getAllByDate = getAllByDate
 exports.upload = upload
 exports.getById = getById

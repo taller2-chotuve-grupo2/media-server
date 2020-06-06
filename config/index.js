@@ -8,9 +8,10 @@ const config = {
       port: process.env.DB_PORT,
       name: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      password: process.env.DB_PASSWORD,
+      uri: process.env.DATABASE_URL
     },
-    environment: process.env.NODE_ENV || 'development',
+    environment: process.env.NODE_ENV || 'local',
     port: process.env.PORT || 3030,
     token: process.env.AUTH_TOKEN || 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'
   }

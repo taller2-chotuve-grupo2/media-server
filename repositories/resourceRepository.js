@@ -23,6 +23,20 @@ async function getOneById (id) {
   return result
 }
 
+async function getAllByDate (limit) {
+  const resources = await Resource.findAll({
+    limit: limit,
+    order: [
+      ['createdAt', 'DESC']
+    ]
+  })
+  if (resources.length === 0) {
+    throw Error('NO RESOURCES')
+  }
+  return resources.map(r => r.toJSON())
+}
+
+exports.getAllByDate = getAllByDate
 exports.createResource = createResource
 exports.getOneByTitle = getOneByTitle
 exports.getOneById = getOneById

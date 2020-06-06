@@ -1,6 +1,7 @@
 const express = require('express')
 const config = require('./config')
 const router = require('./routes')
+const db = require('./models')
 const { logger, middlewareLogger } = require('./logger')
 
 const init = () => {
@@ -13,6 +14,8 @@ const init = () => {
 
   app.use('/', router)
   app.use(middlewareLogger)
+
+  db.sequelize.sync()
 
   logger.info(`Started app on http://localhost:${port}`)
   app.listen(port)
