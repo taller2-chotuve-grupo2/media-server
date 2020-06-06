@@ -1,21 +1,18 @@
 const paths = require('../config/path-config')
 const config = require('../config/index')
-const request = require('request')
+const axios = require('axios').default
 
-exports.auth = (req, res, next) => {
-  request.post(paths[config.common.environment].auth_sv, { json: { token: 'value' } }, (error, response, body) => {
-    if (response.statusCode == 200) {
-      next()
-    } else {
-      res.sendStatus(401)
-    }
+const authHeader = {
+  authorization: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'
+}
+
+exports.auth = async (req, res, next) => {
+  console.log(paths[config.common.environment].auth_sv)
+  axios.post(paths[config.common.environment].auth_sv, {
+    token: req.headers.authorization
+  }, authHeader).then(() => {
+    next()
+  }).catch(() => {
+    res.sendStatus(401)
   })
-
-  // console.log(asd);
-  // const authorization = 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'
-  // if (req.headers.authorization === authorization) {
-  //   next()
-  // } else {
-  //   res.sendStatus(401)
-  // }
 }

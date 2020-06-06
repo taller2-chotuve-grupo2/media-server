@@ -17,6 +17,14 @@ describe('End-to-End tests', () => {
     })
 
     context('With invalid token', () => {
+      beforeEach('Change env variable', () => {
+        config.common.environment = 'testing_failing_auth'
+      })
+
+      afterEach('Reset env variable', () => {
+        config.common.environment = 'testing'
+      })
+
       it('No auth token should return unauthorized', async () => {
         const response = await request(app).get('/resource')
         expect(response.statusCode).to.equal(401)
