@@ -1,7 +1,10 @@
 module.exports = {
 
   development: {
-    auth_sv: 'https://chotuve-grupo2-auth-server-dev.herokuapp.com'
+    auth_sv: 'https://chotuve-grupo2-auth-server-dev.herokuapp.com/auth'
+  },
+  local: {
+    auth_sv: 'https://chotuve-grupo2-auth-server-dev.herokuapp.com/auth'
   },
   testing: {
     auth_sv: 'https://httpbin.org/status/200'
