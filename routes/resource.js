@@ -8,9 +8,9 @@ const reactionHelpers = require('../helpers/reactions_helpers.js')
 const commentHelpers = require('../helpers/comments_helpers.js')
 
 const getResources = async (req, res) => {
-  const limit = 20
   try {
-    const resources = await resourceService.getAllByDate(limit, resourceRepository)
+    console.log(req.query)
+    const resources = await resourceService.getAllByDate(req.query, resourceRepository)
     res.status(200)
     return res.send(resources)
   } catch (e) {
@@ -28,17 +28,18 @@ router.get('/:id/', async function (req, res) {
   if (!resource) {
     return res.sendStatus(404)
   }
-  return res.status(200).send({
-    id: resource.id,
-    name: resource.name,
-    path: resource.path,
-    size: resource.size,
-    owner: resource.owner,
-    title: resource.title,
-    description: resource.description,
-    location: resource.location,
-    visibility: resource.visibility
-  })
+  return res.status(200).send(resource.toJSON())
+  // {
+  // id: resource.id,
+  // name: resource.name,
+  // path: resource.path,
+  // size: resource.size,
+  // owner: resource.owner,
+  // title: resource.title,
+  // description: resource.description,
+  // location: resource.location,
+  // visibility: resource.visibility
+  // })
 })
 
 router.post('/', async function (req, res) {

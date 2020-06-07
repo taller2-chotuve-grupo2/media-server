@@ -15,8 +15,8 @@ async function getById (id, repository) {
   return resource
 }
 
-async function getAllByDate (limit, repository) {
-  return await repository.getAllByDate(limit)
+async function getAllByDate (query, repository) {
+  return await repository.getAllByDate(query)
 }
 
 exports.getAllByDate = getAllByDate

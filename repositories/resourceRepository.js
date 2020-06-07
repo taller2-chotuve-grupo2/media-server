@@ -1,4 +1,6 @@
 const Resource = require('../models').Resource
+const Comment = require('../models').Comment
+const Op = require('../models').Sequelize.Op
 
 async function createResource (resourceData) {
   const result = await Resource.create(resourceData)
@@ -18,14 +20,22 @@ async function getOneById (id) {
   const result = await Resource.findOne({
     where: {
       id: id
-    }
+    },
+    include: [{
+      model: Comment
+    }]
   })
   return result
 }
 
-async function getAllByDate (limit) {
+async function getAllByDate (query) {
+  const whereCondition = {}
+  if (query.title) {
+    whereCondition.title = { [Op.substring]: query.title }
+  }
   const resources = await Resource.findAll({
-    limit: limit,
+    limit: query.limit,
+    where: whereCondition,
     order: [
       ['createdAt', 'DESC']
     ]
