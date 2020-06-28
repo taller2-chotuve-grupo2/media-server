@@ -143,9 +143,9 @@ describe('End-to-End tests', () => {
     })
 
     it('respond with 400 if post failed', (done) => {
-      // dataCreator is seeding a resource with this title
+      // dataCreator is seeding a resource with this id
       const failingData = {
-        title: 'RICHARD VIDEO'
+        id: '1'
       }
       request(app).post('/resource').set('authorization', config.common.token)
         .send(failingData)

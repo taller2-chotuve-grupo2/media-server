@@ -1,22 +1,24 @@
-async function upload (resourceData, repository) {
-  var aux = await repository.getOneByTitle(resourceData.title)
-  if (aux) {
+const resourceRepository = require('../repositories/resourceRepository.js')
+
+async function upload (resourceData) {
+  try {
+    var aux = await resourceRepository.createResource(resourceData)
+    if (!aux) {
+      return null
+    }
+    return aux.id
+  } catch (e) {
     return null
   }
-  aux = await repository.createResource(resourceData)
-  if (!aux) {
-    return null
-  }
-  return aux.id
 }
 
-async function getById (id, repository) {
-  var resource = await repository.getOneById(id)
+async function getById (id) {
+  var resource = await resourceRepository.getOneById(id)
   return resource
 }
 
-async function getAllByDate (query, repository) {
-  return await repository.getAllByDate(query)
+async function getAllByDate (query) {
+  return await resourceRepository.getAllByDate(query)
 }
 
 exports.getAllByDate = getAllByDate
