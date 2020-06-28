@@ -33,6 +33,23 @@ describe('resourceService', () => {
     })
   })
 
+  context('patchResourceById', () => {
+    const dataToPatch = {
+      title: 'New title',
+      visibility: 'Private'
+    }
+
+    it('should return a reloaded resource if patch is ok', async function () {
+      const result = await resourceService.patchResourceById('1', dataToPatch)
+      return expect(result.title).to.be.eql(dataToPatch.title)
+    })
+
+    it('should return null if resource not found', async function () {
+      const result = await resourceService.patchResourceById('bad_id', dataToPatch)
+      return expect(result).to.be.null
+    })
+  })
+
   context('Integration tests', () => {
     context('With resourceRepository', () => {
       it('should get a resource by id', async function () {
