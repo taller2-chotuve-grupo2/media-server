@@ -7,32 +7,23 @@ describe('resourceRepository', () => {
     await dataCreator.cleanTables()
   })
 
+  const data = {
+    name: 'My first name',
+    path: 'www.richard.com',
+    size: '1MB',
+    owner: 'RICHARDINHO',
+    title: 'REPEATED TITLE',
+    description: 'ASDASD',
+    location: 'Argentina',
+    visibility: 'Public'
+  }
+
   it('should save a video', async function () {
-    const data = {
-      name: 'My first name',
-      path: 'www.richard.com',
-      size: '1MB',
-      owner: 'RICHARDINHO',
-      title: 'REPEATED TITLE',
-      description: 'ASDASD',
-      location: 'Argentina',
-      visibility: 'Public'
-    }
     var result = await resourceRepository.createResource(data)
     return expect(result.dataValues.name).to.be.eql(data.name)
   })
 
   it('should return a video by title', async function () {
-    const data = {
-      name: 'My first name',
-      path: 'www.richard.com',
-      size: '1MB',
-      owner: 'RICHARDINHO',
-      title: 'RICHARD VIDEO',
-      description: 'ASDASD',
-      location: 'Argentina',
-      visibility: 'Public'
-    }
     var result = await resourceRepository.createResource(data)
     if (result) {
       result = await resourceRepository.getOneByTitle(data.title)
@@ -57,16 +48,6 @@ describe('resourceRepository', () => {
   })
 
   it('should patch a Resource attribute', async function () {
-    const data = {
-      name: 'My first name',
-      path: 'www.richard.com',
-      size: '1MB',
-      owner: 'RICHARDINHO',
-      title: 'RICHARD VIDEO',
-      description: 'ASDASD',
-      location: 'Argentina',
-      visibility: 'Public'
-    }
     var resource = await resourceRepository.createResource(data)
 
     const dataToPatch = {
@@ -81,16 +62,6 @@ describe('resourceRepository', () => {
   })
 
   it('should not patch an attribute if not requested', async function () {
-    const data = {
-      name: 'My first name',
-      path: 'www.richard.com',
-      size: '1MB',
-      owner: 'RICHARDINHO',
-      title: 'RICHARD VIDEO',
-      description: 'ASDASD',
-      location: 'Argentina',
-      visibility: 'Public'
-    }
     var resource = await resourceRepository.createResource(data)
 
     const dataToPatch = {
@@ -102,5 +73,28 @@ describe('resourceRepository', () => {
     resource = await resourceRepository.getOneById(resource.id)
 
     return expect(resource.title).to.be.eql(data.title)
+  })
+
+  it('should not patch an attribute if not requested', async function () {
+    var resource = await resourceRepository.createResource(data)
+
+    const dataToPatch = {
+      name: 'Another name'
+    }
+
+    await resourceRepository.patchResource(resource, dataToPatch)
+
+    resource = await resourceRepository.getOneById(resource.id)
+
+    return expect(resource.title).to.be.eql(data.title)
+  })
+
+  it('should delete a resource', async function () {
+    var resource = await resourceRepository.createResource(data)
+    var id = resource.id
+
+    await resourceRepository.deleteResource(id)
+
+    return expect(await resourceRepository.getOneById(id)).to.be.null
   })
 })
