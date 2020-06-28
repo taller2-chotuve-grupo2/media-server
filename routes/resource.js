@@ -110,4 +110,18 @@ router.patch('/:id', async function (req, res) {
   return res.status(200).send(resource.toJSON())
 })
 
+router.delete('/:id', async function (req, res) {
+  const id = req.params.id
+
+  var result = await resourceService.deleteResourceById(id)
+
+  if (!result) {
+    return res.status(404).send({
+      message: 'Resource not found'
+    })
+  }
+
+  return res.sendStatus(200)
+})
+
 module.exports = router

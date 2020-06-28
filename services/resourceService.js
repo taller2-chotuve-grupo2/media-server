@@ -34,6 +34,11 @@ async function patchResourceById (id, dataToPatch) {
   return resource
 }
 
+async function deleteResourceById (id) {
+  return await resourceRepository.deleteResource(id)
+}
+
+exports.deleteResourceById = deleteResourceById
 exports.patchResourceById = patchResourceById
 exports.getAllByDate = getAllByDate
 exports.upload = upload
