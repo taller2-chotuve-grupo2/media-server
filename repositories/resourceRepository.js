@@ -61,6 +61,15 @@ async function patchResource (resource, dataToPatch) {
   resource.save()
 }
 
+async function deleteResource (resourceId) {
+  return await Resource.destroy({
+    where: {
+      id: resourceId
+    }
+  })
+}
+
+exports.deleteResource = deleteResource
 exports.getAllByDate = getAllByDate
 exports.createResource = createResource
 exports.getOneByTitle = getOneByTitle

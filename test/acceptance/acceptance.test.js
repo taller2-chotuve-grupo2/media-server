@@ -299,4 +299,30 @@ describe('End-to-End tests', () => {
         .end(done)
     })
   })
+
+  context('DELETE /resource/{id}', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
+
+    afterEach('Clean tables', async () => {
+      await dataCreator.cleanTables()
+    })
+
+    it('respond with 200 if delete succedeed', (done) => {
+      request(app).delete('/resource/1').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('respond with 404 if resource not found', (done) => {
+      request(app).patch('/resource/2').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(404)
+        })
+        .end(done)
+    })
+  })
 })
