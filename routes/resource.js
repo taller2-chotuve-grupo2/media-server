@@ -95,4 +95,19 @@ router.get('/:id/comment', async function (req, res) {
   return res.status(200).send(commentList)
 })
 
+router.patch('/:id', async function (req, res) {
+  const id = req.params.id
+  const dataToPatch = req.body
+
+  var resource = await resourceService.patchResourceById(id, dataToPatch)
+
+  if (!resource) {
+    return res.status(404).send({
+      message: 'Resource not found'
+    })
+  }
+
+  return res.status(200).send(resource.toJSON())
+})
+
 module.exports = router

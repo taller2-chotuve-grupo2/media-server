@@ -1,8 +1,5 @@
 const expect = require('chai').expect
 const resourceService = require('../services/resourceService.js')
-const resourceRepositoryMock = require('../repositories/mocks/resourceRepositoryMock.js')
-const resourceRepositoryFailingMock = require('../repositories/mocks/resourceRepositoryFailingMock.js')
-const resourceRepository = require('../repositories/resourceRepository.js')
 const dataCreator = require('../dataCreator/dataCreator.js')
 
 describe('resourceService', () => {
@@ -19,27 +16,36 @@ describe('resourceService', () => {
       const data = {
         id: '0800-R1CH4RD-555'
       }
-      const result = await resourceService.upload(data, resourceRepositoryMock)
+      const result = await resourceService.upload(data)
       return expect(result).to.be.eql('0800-R1CH4RD-555')
-    })
-
-    it('returns null if resource upload fails', async function () {
-      const data = {
-        name: 'Bad video'
-      }
-      const result = await resourceService.upload(data, resourceRepositoryFailingMock)
-      return expect(result).to.be.null
     })
   })
 
   context('getById', () => {
     it('should get a resource by id', async function () {
-      const result = await resourceService.getById('1', resourceRepositoryMock)
+      const result = await resourceService.getById('1')
       return expect(result.id).to.be.eql('1')
     })
 
     it('should return null if resource not found', async function () {
-      const result = await resourceService.getById('bad_id', resourceRepositoryFailingMock)
+      const result = await resourceService.getById('bad_id')
+      return expect(result).to.be.null
+    })
+  })
+
+  context('patchResourceById', () => {
+    const dataToPatch = {
+      title: 'New title',
+      visibility: 'Private'
+    }
+
+    it('should return a reloaded resource if patch is ok', async function () {
+      const result = await resourceService.patchResourceById('1', dataToPatch)
+      return expect(result.title).to.be.eql(dataToPatch.title)
+    })
+
+    it('should return null if resource not found', async function () {
+      const result = await resourceService.patchResourceById('bad_id', dataToPatch)
       return expect(result).to.be.null
     })
   })
@@ -47,11 +53,11 @@ describe('resourceService', () => {
   context('Integration tests', () => {
     context('With resourceRepository', () => {
       it('should get a resource by id', async function () {
-        const result = await resourceService.getById('1', resourceRepository)
+        const result = await resourceService.getById('1')
         return expect(result.id).to.be.eql('1')
       })
 
-      it('returns true if upload is ok', async function () {
+      it('returns id if upload is ok', async function () {
         const data = {
           id: '5',
           name: 'My first name',
@@ -63,7 +69,7 @@ describe('resourceService', () => {
           location: 'Argentina',
           visibility: 'Public'
         }
-        const result = await resourceService.upload(data, resourceRepository)
+        const result = await resourceService.upload(data)
         return expect(result).to.eql(data.id)
       })
     })

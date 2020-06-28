@@ -143,9 +143,9 @@ describe('End-to-End tests', () => {
     })
 
     it('respond with 400 if post failed', (done) => {
-      // dataCreator is seeding a resource with this title
+      // dataCreator is seeding a resource with this id
       const failingData = {
-        title: 'RICHARD VIDEO'
+        id: '1'
       }
       request(app).post('/resource').set('authorization', config.common.token)
         .send(failingData)
@@ -253,6 +253,48 @@ describe('End-to-End tests', () => {
       request(app).get('/resource/1/comment').set('authorization', config.common.token)
         .expect(response => {
           return expect(response.body[0].message).to.be.eql('Buen video Richard!')
+        })
+        .end(done)
+    })
+  })
+
+  context('PATCH /resource/{id}', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
+
+    afterEach('Clean tables', async () => {
+      await dataCreator.cleanTables()
+    })
+
+    const dataToPatch = {
+      title: 'New title',
+      visibility: 'private'
+    }
+
+    it('respond with 200 if patch succedeed', (done) => {
+      request(app).patch('/resource/1').set('authorization', config.common.token)
+        .send(dataToPatch)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('respond with 404 if resource not found', (done) => {
+      request(app).patch('/resource/2').set('authorization', config.common.token)
+        .send(dataToPatch)
+        .expect(response => {
+          expect(response.statusCode).to.equal(404)
+        })
+        .end(done)
+    })
+
+    it('should send the reloaded resource', (done) => {
+      request(app).patch('/resource/1').set('authorization', config.common.token)
+        .send(dataToPatch)
+        .expect(response => {
+          expect(response.body.title).to.equal(dataToPatch.title)
         })
         .end(done)
     })

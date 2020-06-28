@@ -1,3 +1,5 @@
+// const { Sequelize } = require('../models')
+
 const Resource = require('../models').Resource
 const Comment = require('../models').Comment
 const Op = require('../models').Sequelize.Op
@@ -46,7 +48,21 @@ async function getAllByDate (query) {
   return resources.map(r => r.toJSON())
 }
 
+async function patchResource (resource, dataToPatch) {
+  // Path, thumbnail?
+  resource.name = dataToPatch.name
+  resource.size = dataToPatch.size
+  resource.title = dataToPatch.title
+  resource.description = dataToPatch.description
+  resource.location = dataToPatch.location
+  resource.visibility = dataToPatch.visibility
+  resource.thumbnail = dataToPatch.thumbnail
+
+  resource.save()
+}
+
 exports.getAllByDate = getAllByDate
 exports.createResource = createResource
 exports.getOneByTitle = getOneByTitle
 exports.getOneById = getOneById
+exports.patchResource = patchResource
