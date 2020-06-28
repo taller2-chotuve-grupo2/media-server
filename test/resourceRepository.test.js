@@ -55,4 +55,28 @@ describe('resourceRepository', () => {
     const result = await resourceRepository.getOneById('RICHARD')
     return expect(result).to.be.null
   })
+
+  it('should patch a Resource attribute', async function () {
+    const data = {
+      name: 'My first name',
+      path: 'www.richard.com',
+      size: '1MB',
+      owner: 'RICHARDINHO',
+      title: 'RICHARD VIDEO',
+      description: 'ASDASD',
+      location: 'Argentina',
+      visibility: 'Public'
+    }
+    var resource = await resourceRepository.createResource(data)
+
+    const dataToPatch = {
+      title: 'A new title'
+    }
+
+    await resourceRepository.patchResource(resource, dataToPatch)
+
+    resource = await resourceRepository.getOneById(resource.id)
+
+    return expect(resource.title).to.be.eql(dataToPatch.title)
+  })
 })
