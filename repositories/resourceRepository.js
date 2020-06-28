@@ -56,6 +56,7 @@ async function patchResource (resource, dataToPatch) {
   resource.description = dataToPatch.description
   resource.location = dataToPatch.location
   resource.visibility = dataToPatch.visibility
+  resource.thumbnail = dataToPatch.thumbnail
 
   resource.save()
 }
