@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     location: DataTypes.STRING,
-    visibility: DataTypes.STRING
+    visibility: DataTypes.STRING,
+    thumbnail: DataTypes.STRING
   }, {})
   Resource.associate = function (models) {
     Resource.hasMany(models.Comment)
