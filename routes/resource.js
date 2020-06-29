@@ -9,13 +9,11 @@ const commentHelpers = require('../helpers/comments_helpers.js')
 
 const getResources = async (req, res) => {
   try {
-    console.log(req.query)
     const resources = await resourceService.getAllByDate(req.query, resourceRepository)
     res.status(200)
     return res.send(resources)
   } catch (e) {
     res.status(404)
-    console.log(e)
     return res.send('ERROR IN GET RESOURCES')
   }
 }
