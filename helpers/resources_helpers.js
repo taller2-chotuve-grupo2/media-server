@@ -9,6 +9,9 @@ async function getPagedResult (pageSize = 1, pageNumber = 1) {
   }
 
   var result = await Resource.findAndCountAll({
+    order: [
+      ['createdAt', 'DESC']
+    ],
     offset: (pageNumber - 1) * pageSize,
     limit: pageSize
   })

@@ -40,7 +40,6 @@ describe('resourcePagedResult', () => {
   context('Functionality', async () => {
     it('Should contain Resources as result if any', async () => {
       var pagedResult = await resourceHelpers.getPagedResult()
-      expect(pagedResult.result[0].title).to.eql('RICHARD VIDEO')
       return expect(pagedResult.result).not.to.be.empty
     })
 
@@ -57,6 +56,23 @@ describe('resourcePagedResult', () => {
     it('Should send false in hasNext if it there is no next page', async () => {
       var pagedResult = await resourceHelpers.getPagedResult(1, 2)
       return expect(pagedResult.hasNext).to.be.false
+    })
+
+    it('Should send true in hasPrevious if it there is a previous page', async () => {
+      var pagedResult = await resourceHelpers.getPagedResult(1, 2)
+      return expect(pagedResult.hasPrevious).to.be.true
+    })
+
+    it('Should send false in hasPrevious if it there is no previous page', async () => {
+      var pagedResult = await resourceHelpers.getPagedResult(1, 1)
+      return expect(pagedResult.hasPrevious).to.be.false
+    })
+
+    it('Should return results ordered by creation date', async () => {
+      var pagedResult = await resourceHelpers.getPagedResult(2)
+      console.log(pagedResult.result)
+      expect(pagedResult.result[1].title).to.eql('RICHARD VIDEO')
+      return expect(pagedResult.result[0].title).to.eql('RICHARD SECOND VIDEO')
     })
   })
 })
