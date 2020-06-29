@@ -1,3 +1,5 @@
+// const { query } = require('winston')
+
 const Resource = require('../models').Resource
 const Op = require('../models').Sequelize.Op
 
@@ -31,7 +33,7 @@ async function getPagedResult (pageSize = 1, pageNumber = 1, queryTitle = null) 
     pageNumber: pageNumber,
     totalPages: totalPages,
     totalResults: result.count,
-    result: result.rows
+    result: result.rows.map(r => r.toJSON())
   }
 }
 

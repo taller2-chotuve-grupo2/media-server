@@ -20,6 +20,11 @@ const getResources = async (req, res) => {
 
 router.get('/', getResources)
 
+router.get('/paged-results', async function (req, res) {
+  const pagedResult = await resourceService.getPagedResult(req.query)
+  return res.status(200).send(pagedResult)
+})
+
 router.get('/:id/', async function (req, res) {
   const id = req.params.id
   const resource = await resourceService.getById(id, resourceRepository)

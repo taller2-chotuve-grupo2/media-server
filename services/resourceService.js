@@ -38,6 +38,11 @@ async function deleteResourceById (id) {
   return await resourceRepository.deleteResource(id)
 }
 
+async function getPagedResult (query) {
+  return await resourceRepository.getPagedResult(query.pageSize, query.pageNumber, query.title)
+}
+
+exports.getPagedResult = getPagedResult
 exports.deleteResourceById = deleteResourceById
 exports.patchResourceById = patchResourceById
 exports.getAllByDate = getAllByDate
