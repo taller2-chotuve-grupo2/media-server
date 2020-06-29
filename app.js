@@ -5,7 +5,6 @@ const db = require('./models')
 const { logger, middlewareLogger } = require('./logger')
 const cors = require('cors')
 
-
 const init = () => {
   const app = express()
   app.use(cors())
