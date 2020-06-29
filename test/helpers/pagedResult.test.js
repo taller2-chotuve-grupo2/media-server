@@ -43,5 +43,20 @@ describe('resourcePagedResult', () => {
       expect(pagedResult.result[0].title).to.eql('RICHARD VIDEO')
       return expect(pagedResult.result).not.to.be.empty
     })
+
+    it('Should contain the specified number of results per page', async () => {
+      var pagedResult = await resourceHelpers.getPagedResult(1)
+      return expect(pagedResult.result).to.have.lengthOf(1)
+    })
+
+    it('Should send true in hasNext if it there is a next page', async () => {
+      var pagedResult = await resourceHelpers.getPagedResult(1)
+      return expect(pagedResult.hasNext).to.be.true
+    })
+
+    it('Should send false in hasNext if it there is no next page', async () => {
+      var pagedResult = await resourceHelpers.getPagedResult(1, 2)
+      return expect(pagedResult.hasNext).to.be.false
+    })
   })
 })

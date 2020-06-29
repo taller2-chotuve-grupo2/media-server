@@ -25,14 +25,30 @@ const resourceData = {
   reactions: [reactionData]
 }
 
+const anotherResourceData = {
+  id: '1827897', // hay tests que preguntan por el id 2 -> no es conveniente
+  name: 'My second name',
+  path: 'www.richard.com',
+  size: '1MB',
+  owner: 'RICHARDINHO',
+  title: 'RICHARD SECOND VIDEO',
+  description: 'A description for this second video',
+  location: 'Argentina',
+  visibility: 'Public'
+}
+
 async function seedAll () {
   await seedResources()
 }
 
 async function seedResources () {
+  // Primer recurso con comentarios y reacciones
   var asd = await Resource.create(resourceData)
   asd.addReaction(await Reaction.create(reactionData))
   asd.addComment(await Comment.create(commentData))
+
+  // Segundo recurso sin nada
+  await Resource.create(anotherResourceData)
 }
 
 async function cleanTables () {
