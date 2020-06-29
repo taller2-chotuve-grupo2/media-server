@@ -3,9 +3,12 @@ const config = require('./config')
 const router = require('./routes')
 const db = require('./models')
 const { logger, middlewareLogger } = require('./logger')
+const cors = require('cors')
+
 
 const init = () => {
   const app = express()
+  app.use(cors())
   const port = config.common.port
 
   module.exports = app
