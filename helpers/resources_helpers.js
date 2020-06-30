@@ -3,7 +3,7 @@
 const Resource = require('../models').Resource
 const Op = require('../models').Sequelize.Op
 
-async function getPagedResult (pageSize = 1, pageNumber = 1, queryTitle = null) {
+async function getPagedResult (pageSize = 10, pageNumber = 1, queryTitle = null) {
   const whereCondition = {}
   if (queryTitle) {
     whereCondition.title = { [Op.substring]: queryTitle }
