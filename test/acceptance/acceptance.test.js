@@ -38,11 +38,40 @@ describe('End-to-End tests', () => {
     })
 
     context('With valid auth token', () => {
-      it('respond with 200 if resources found', async () => {
-        const response = await request(app).get('/resource').set('authorization', config.common.token)
-        expect(response.statusCode).to.equal(200)
-        const resources = response.body
-        expect(resources.length).to.be.greaterThan(0)
+      it('Should respond with 200 if resources found', (done) => {
+        request(app).get('/resource').set('authorization', config.common.token)
+          .expect(response => {
+            expect(response.statusCode).to.equal(200)
+          })
+          .end(done)
+      })
+
+      it('Should have results', (done) => {
+        request(app).get('/resource').set('authorization', config.common.token)
+          .expect(response => {
+            return expect(response.body.result).not.to.be.empty
+          })
+          .end(done)
+      })
+
+      it('Should have paging information', (done) => {
+        request(app).get('/resource').set('authorization', config.common.token)
+          .expect(response => {
+            expect(response.body.hasNext).to.be.a('boolean')
+            expect(response.body.hasPrevious).to.be.a('boolean')
+            expect(response.body.totalResults).to.be.a('number')
+            expect(response.body.totalPages).to.be.a('number')
+          })
+          .end(done)
+      })
+
+      it('respond with 404 if resources not found', (done) => {
+        request(app).get('/resource?title=ASDKJAIOKSMD').set('authorization', config.common.token)
+          .expect(response => {
+            expect(response.statusCode).to.equal(404)
+            return expect(response.body.result).to.be.empty
+          })
+          .end(done)
       })
     })
   })
@@ -321,16 +350,6 @@ describe('End-to-End tests', () => {
       request(app).patch('/resource/2').set('authorization', config.common.token)
         .expect(response => {
           expect(response.statusCode).to.equal(404)
-        })
-        .end(done)
-    })
-  })
-
-  context('GET /paged-results', () => {
-    it('Should respond with 200', (done) => {
-      request(app).get('/resource/paged-results').set('authorization', config.common.token)
-        .expect(response => {
-          expect(response.statusCode).to.equal(200)
         })
         .end(done)
     })
