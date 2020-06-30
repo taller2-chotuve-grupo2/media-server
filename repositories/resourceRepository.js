@@ -74,7 +74,13 @@ async function deleteResource (resourceId) {
 }
 
 async function getPagedResult (pageSize, pageNumber, queryTitle) {
-  return await resourceHelpers.getPagedResult(parseInt(pageSize, 10), parseInt(pageNumber, 10), queryTitle)
+  if (pageSize) {
+    pageSize = parseInt(pageSize, 10)
+  }
+  if (pageNumber) {
+    pageNumber = parseInt(pageNumber, 10)
+  }
+  return await resourceHelpers.getPagedResult(pageSize, pageNumber, queryTitle)
 }
 
 exports.getPagedResult = getPagedResult

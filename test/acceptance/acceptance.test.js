@@ -327,12 +327,12 @@ describe('End-to-End tests', () => {
   })
 
   context('GET /paged-results', () => {
-    // it('Should respond with 200', (done) => {
-    //   request(app).get('/resource/paged-results').set('authorization', config.common.token)
-    //     .expect(response => {
-    //       expect(response.statusCode).to.equal(200)
-    //     })
-    //     .end(done)
-    // })
+    it('Should respond with 200', (done) => {
+      request(app).get('/resource/paged-results').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
   })
 })
