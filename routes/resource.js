@@ -7,20 +7,26 @@ const resourceRepository = require('../repositories/resourceRepository.js')
 const reactionHelpers = require('../helpers/reactions_helpers.js')
 const commentHelpers = require('../helpers/comments_helpers.js')
 
-const getResources = async (req, res) => {
-  try {
-    console.log(req.query)
-    const resources = await resourceService.getAllByDate(req.query, resourceRepository)
-    res.status(200)
-    return res.send(resources)
-  } catch (e) {
-    res.status(404)
-    console.log(e)
-    return res.send('ERROR IN GET RESOURCES')
-  }
-}
+// const getResources = async (req, res) => {
+//   try {
+//     const resources = await resourceService.getAllByDate(req.query, resourceRepository)
+//     res.status(200)
+//     return res.send(resources)
+//   } catch (e) {
+//     res.status(404)
+//     return res.send('ERROR IN GET RESOURCES')
+//   }
+// }
 
-router.get('/', getResources)
+// router.get('/', getResources)
+
+router.get('/', async function (req, res) {
+  const pagedResult = await resourceService.getPagedResult(req.query)
+  if (pagedResult.totalResults === 0) {
+    return res.status(404).send(pagedResult)
+  }
+  return res.status(200).send(pagedResult)
+})
 
 router.get('/:id/', async function (req, res) {
   const id = req.params.id

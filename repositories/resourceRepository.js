@@ -1,8 +1,12 @@
 // const { Sequelize } = require('../models')
 
+// const { query } = require('winston')
+
 const Resource = require('../models').Resource
 const Comment = require('../models').Comment
 const Op = require('../models').Sequelize.Op
+
+const resourceHelpers = require('../helpers/resources_helpers.js')
 
 async function createResource (resourceData) {
   const result = await Resource.create(resourceData)
@@ -69,6 +73,17 @@ async function deleteResource (resourceId) {
   })
 }
 
+async function getPagedResult (pageSize, pageNumber, queryTitle) {
+  if (pageSize) {
+    pageSize = parseInt(pageSize, 10)
+  }
+  if (pageNumber) {
+    pageNumber = parseInt(pageNumber, 10)
+  }
+  return await resourceHelpers.getPagedResult(pageSize, pageNumber, queryTitle)
+}
+
+exports.getPagedResult = getPagedResult
 exports.deleteResource = deleteResource
 exports.getAllByDate = getAllByDate
 exports.createResource = createResource
