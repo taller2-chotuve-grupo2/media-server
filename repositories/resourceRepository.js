@@ -62,7 +62,7 @@ async function patchResource (resource, dataToPatch) {
   resource.visibility = dataToPatch.visibility
   resource.thumbnail = dataToPatch.thumbnail
 
-  resource.save()
+  await resource.save()
 }
 
 async function deleteResource (resourceId) {
