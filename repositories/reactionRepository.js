@@ -27,7 +27,7 @@ async function countReactionsForResourceId (resourceId) {
   const dislikes = await Reaction.count({
     where: {
       status: 'No me gusta',
-      resourceId: resourceId
+      ResourceId: resourceId
     }
   })
 
