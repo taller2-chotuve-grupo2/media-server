@@ -20,7 +20,7 @@ async function countReactionsForResourceId (resourceId) {
   const likes = await Reaction.count({
     where: {
       status: 'Me gusta',
-      resourceId: resourceId
+      ResourceId: resourceId
     }
   })
 
@@ -41,7 +41,7 @@ async function getOwnerReactionToResource (idResource, owner) {
   return await Reaction.findOne({
     where: {
       owner: owner,
-      resourceId: idResource
+      ResourceId: idResource
     }
   })
 }
