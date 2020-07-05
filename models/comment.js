@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: uuid
     },
-    message: DataTypes.STRING
+    message: DataTypes.STRING,
+    owner: DataTypes.STRING
   }, {})
   Comment.associate = function (models) {
     Comment.belongsTo(models.Resource)
