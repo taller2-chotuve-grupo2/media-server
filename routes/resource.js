@@ -4,21 +4,8 @@ const resourceService = require('../services/resourceService.js')
 const reactionService = require('../services/reactionService.js')
 const commentService = require('../services/commentService.js')
 const resourceRepository = require('../repositories/resourceRepository.js')
-const reactionHelpers = require('../helpers/reactions_helpers.js')
 const commentHelpers = require('../helpers/comments_helpers.js')
-
-// const getResources = async (req, res) => {
-//   try {
-//     const resources = await resourceService.getAllByDate(req.query, resourceRepository)
-//     res.status(200)
-//     return res.send(resources)
-//   } catch (e) {
-//     res.status(404)
-//     return res.send('ERROR IN GET RESOURCES')
-//   }
-// }
-
-// router.get('/', getResources)
+// const reactionHelpers = require('../helpers/reactions_helpers.js')
 
 router.get('/', async function (req, res) {
   const pagedResult = await resourceService.getPagedResult(req.query)
@@ -51,6 +38,12 @@ router.post('/', async function (req, res) {
 router.post('/:id/reaction', async function (req, res) {
   const id = req.params.id
   const data = req.body
+  if (!data.owner) {
+    return res.status(400).send({
+      message: 'Must have an owner'
+    })
+  }
+
   const resource = await resourceService.getById(id, resourceRepository)
   if (!resource) {
     return res.sendStatus(400)
@@ -66,12 +59,11 @@ router.post('/:id/reaction', async function (req, res) {
 
 router.get('/:id/reaction', async function (req, res) {
   const id = req.params.id
-  var resource = await resourceService.getById(id, resourceRepository)
+  const userQuery = req.query.username
 
-  var reactions = await resource.getReactions()
+  var reactions = await reactionService.getReactionsInformation(id, userQuery)
 
-  var reactionList = reactionHelpers.buildReactionsList(reactions)
-  return res.status(200).send(reactionList)
+  return res.status(200).send(reactions)
 })
 
 router.post('/:id/comment', async function (req, res) {

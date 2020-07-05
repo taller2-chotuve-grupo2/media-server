@@ -5,6 +5,7 @@ const sequelize = require('../models').sequelize
 
 const reactionData = {
   status: 'Me gusta',
+  owner: 'RICHARD',
   IdResource: '1'
 }
 

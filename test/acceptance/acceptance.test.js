@@ -191,7 +191,8 @@ describe('End-to-End tests', () => {
     })
     it('respond with 200 if post succedeed', (done) => {
       const data = {
-        status: 'Me gusta'
+        status: 'Me gusta',
+        owner: 'JP'
       }
       request(app).post('/resource/1/reaction').set('authorization', config.common.token)
         .send(data)
@@ -223,9 +224,16 @@ describe('End-to-End tests', () => {
       expect(response.statusCode).to.equal(200)
     })
 
-    it('respond with a list of reactions in the body', async () => {
+    it('respond with the count of each type of reactions', async () => {
       const response = await request(app).get('/resource/1/reaction').set('authorization', config.common.token)
-      return expect(response.body[0]).not.to.be.null
+      expect(response.body.likes).to.be.an('number')
+      expect(response.body.dislikes).to.be.an('number')
+      return expect(response.body.likes).to.eql(1)
+    })
+
+    it('Should return the reaction of an owner by query', async () => {
+      const response = await request(app).get('/resource/1/reaction?username=RICHARD').set('authorization', config.common.token)
+      return expect(response.body.userReaction.status).to.eql('Me gusta')
     })
   })
 

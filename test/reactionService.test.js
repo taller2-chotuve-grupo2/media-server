@@ -4,6 +4,10 @@ const reactionService = require('../services/reactionService.js')
 const dataCreator = require('../dataCreator/dataCreator.js')
 
 describe('reactionService', () => {
+  beforeEach('Seed data', async () => {
+    await dataCreator.seedAll()
+  })
+
   afterEach('clean data', async () => {
     await dataCreator.cleanTables()
   })
@@ -11,7 +15,8 @@ describe('reactionService', () => {
   context('reactToResource', () => {
     it('should return the reaction when reacting to a resource', async function () {
       const data = {
-        status: 'Me gusta'
+        status: 'Me gusta',
+        owner: 'JP'
       }
 
       var resource = await Resource.create({ id: 'ID-RICHARD', name: 'RichardResource' })
@@ -22,7 +27,8 @@ describe('reactionService', () => {
 
     it('should asign the reaction to the resource', async function () {
       const data = {
-        status: 'Me gusta'
+        status: 'Me gusta',
+        owner: 'JP'
       }
 
       var resource = await Resource.create({ id: 'ID-RICHARD', name: 'RichardResource' })
@@ -34,18 +40,39 @@ describe('reactionService', () => {
       return expect(reactionOfResource).not.to.be.null
     })
 
-    it('should asign the resource to the reaction', async function () {
+    it('should update the last reaction if exists', async function () {
       const data = {
-        status: 'Me gusta'
+        status: 'No me gusta',
+        owner: 'RICHARD'
       }
 
-      var resource = await Resource.create({ id: 'ID-RICHARD', name: 'RichardResource' })
+      var resource = await Resource.findOne({
+        where: {
+          id: '1'
+        }
+      })
 
-      var reaction = await reactionService.reactToResource(resource, data)
+      await reactionService.reactToResource(resource, data)
 
-      var resourceOfReaction = (await reaction.getResource())
+      await resource.reload()
 
-      return expect(resourceOfReaction).not.to.be.null
+      expect((await resource.getReactions())[0].status).to.eql('No me gusta')
+
+      return expect(await resource.getReactions()).to.have.lengthOf(1)
+    })
+  })
+
+  context('getReactionsInformation', async () => {
+    it('Should append count and user specific reaction', async () => {
+      var result = await reactionService.getReactionsInformation('1', 'RICHARD')
+      expect(result.likes).to.eql(1)
+      expect(result.dislikes).to.eql(0)
+      return expect(result.userReaction.status).to.eql('Me gusta')
+    })
+
+    it('Should return null in user specific reaction', async () => {
+      var result = await reactionService.getReactionsInformation('1')
+      return expect(result.userReaction).to.be.null
     })
   })
 })
