@@ -21,7 +21,14 @@ router.get('/:id/', async function (req, res) {
   if (!resource) {
     return res.sendStatus(404)
   }
-  return res.status(200).send(resource.toJSON())
+
+  var reactions = await reactionService.getReactionsInformation(id)
+
+  var jResource = resource.toJSON()
+
+  jResource.videoReactions = reactions
+
+  return res.status(200).send(jResource)
 })
 
 router.post('/', async function (req, res) {

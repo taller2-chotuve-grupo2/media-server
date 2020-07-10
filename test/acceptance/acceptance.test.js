@@ -134,6 +134,18 @@ describe('End-to-End tests', () => {
             done()
           })
       })
+
+      /* eslint-disable */
+      it('should return the reactions of video', (done) => {
+        request(app).get('/resource/1').set('authorization', config.common.token)
+          .expect( res => {
+            const resourceReactions = res.body.videoReactions
+            expect(resourceReactions).not.to.be.undefined
+            expect(resourceReactions).not.to.be.null
+            expect(resourceReactions.likes).to.be.an('number')
+          }).end(done)
+      })
+      /* eslint-enable */
     })
   })
 
