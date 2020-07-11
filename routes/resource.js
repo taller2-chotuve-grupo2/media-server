@@ -26,7 +26,8 @@ router.get('/:id/', async function (req, res) {
 
   var jResource = resource.toJSON()
 
-  jResource.videoReactions = reactions
+  jResource.likes = reactions.likes
+  jResource.dislikes = reactions.dislikes
 
   return res.status(200).send(jResource)
 })
