@@ -6,13 +6,13 @@ const Op = require('../models').Sequelize.Op
 async function getPagedResult (pageSize = 10, pageNumber = 1, query = null) {
   const whereCondition = {}
   if (query) {
-    if (query.visibility){
+    if (query.visibility) {
       whereCondition.visibility = query.visibility
     }
-    if (query.owner){
+    if (query.owner) {
       whereCondition.owner = query.owner
     }
-    if (query.title){
+    if (query.title) {
       whereCondition.title = { [Op.substring]: query.title }
     }
   }
