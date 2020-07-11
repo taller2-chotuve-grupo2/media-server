@@ -39,7 +39,7 @@ async function deleteResourceById (id) {
 }
 
 async function getPagedResult (query) {
-  return await resourceRepository.getPagedResult(query.pageSize, query.pageNumber, query.title)
+  return await resourceRepository.getPagedResult(query.pageSize, query.pageNumber, query)
 }
 
 exports.getPagedResult = getPagedResult

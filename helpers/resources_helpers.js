@@ -3,11 +3,21 @@
 const Resource = require('../models').Resource
 const Op = require('../models').Sequelize.Op
 
-async function getPagedResult (pageSize = 10, pageNumber = 1, queryTitle = null) {
+async function getPagedResult (pageSize = 10, pageNumber = 1, query = null) {
   const whereCondition = {}
-  if (queryTitle) {
-    whereCondition.title = { [Op.substring]: queryTitle }
+  if (query) {
+    if (query.visibility){
+      whereCondition.visibility = query.visibility
+    }
+    if (query.owner){
+      whereCondition.owner = query.owner
+    }
+    if (query.title){
+      whereCondition.title = { [Op.substring]: query.title }
+    }
   }
+  console.log(whereCondition)
+  console.log(query)
 
   var count = await Resource.count({
     where: whereCondition

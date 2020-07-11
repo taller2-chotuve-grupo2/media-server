@@ -62,3 +62,4 @@ typings/
 
 mochawesome-report
 openapi-html
+db.sqlite

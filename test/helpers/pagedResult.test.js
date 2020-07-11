@@ -77,8 +77,8 @@ describe('resourcePagedResult', () => {
     it('Should return results matching title', async () => {
       var pagedResult = await resourceHelpers.getPagedResult(50, 1, 'RICHARD SECOND VIDEO')
       expect(pagedResult.result[0].title).to.eql('RICHARD SECOND VIDEO')
-      expect(pagedResult.totalResults).to.eql(1)
-      return expect(pagedResult.result).to.have.lengthOf(1)
+      expect(pagedResult.totalResults).to.eql(2)
+      return expect(pagedResult.result).to.have.lengthOf(2)
     })
   })
 })

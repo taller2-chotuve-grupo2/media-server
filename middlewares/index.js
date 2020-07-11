@@ -10,7 +10,8 @@ const authHeader = {
 
 exports.auth = async (req, res, next) => {
   axios.post(paths[config.common.environment].auth_sv, {
-    token: req.headers.authorization
+    token: req.headers.authorization,
+    admin: true
   }, authHeader).then(() => {
     next()
   }).catch(() => {

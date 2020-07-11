@@ -8,6 +8,7 @@ const commentHelpers = require('../helpers/comments_helpers.js')
 // const reactionHelpers = require('../helpers/reactions_helpers.js')
 
 router.get('/', async function (req, res) {
+  console.log(req.query)
   const pagedResult = await resourceService.getPagedResult(req.query)
   if (pagedResult.totalResults === 0) {
     return res.status(404).send(pagedResult)

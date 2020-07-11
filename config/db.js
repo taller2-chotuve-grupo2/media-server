@@ -3,7 +3,7 @@ const config = require('.').common.database
 module.exports = {
   local: {
     dialect: 'sqlite',
-    storage: ':memory:'
+    storage: './db.sqlite'
   },
   development: {
     uri: config.uri,
