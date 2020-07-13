@@ -18,17 +18,24 @@ router.get('/', async function (req, res) {
 
 router.get('/:id/', async function (req, res) {
   const id = req.params.id
+  const userQuery = req.query.username
   const resource = await resourceService.getById(id, resourceRepository)
   if (!resource) {
     return res.sendStatus(404)
   }
 
-  var reactions = await reactionService.getReactionsInformation(id)
+  var reactions = await reactionService.getReactionsInformation(id, userQuery)
 
   var jResource = resource.toJSON()
 
   jResource.likes = reactions.likes
   jResource.dislikes = reactions.dislikes
+  if (reactions.userReaction){
+    jResource.userReaction = reactions.userReaction.status
+  }
+  else{
+    jResource.userReaction = null
+  }
 
   return res.status(200).send(jResource)
 })
