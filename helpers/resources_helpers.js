@@ -16,8 +16,6 @@ async function getPagedResult (pageSize = 10, pageNumber = 1, query = null) {
       whereCondition.title = { [Op.substring]: query.title }
     }
   }
-  console.log(whereCondition)
-  console.log(query)
 
   var count = await Resource.count({
     where: whereCondition
