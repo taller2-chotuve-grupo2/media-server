@@ -55,7 +55,7 @@ describe('End-to-End tests', () => {
       })
 
       it('Should have paging information', (done) => {
-        request(app).get('/resource').set('authorization', config.common.token)
+        request(app).get('/resource?visibility=private').set('authorization', config.common.token)
           .expect(response => {
             expect(response.body.hasNext).to.be.a('boolean')
             expect(response.body.hasPrevious).to.be.a('boolean')

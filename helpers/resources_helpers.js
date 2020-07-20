@@ -5,9 +5,10 @@ const Op = require('../models').Sequelize.Op
 
 async function getPagedResult (pageSize = 10, pageNumber = 1, query = null) {
   const whereCondition = {}
+  whereCondition[Op.or] = [{ visibility: { [Op.substring]: 'public' } }]
   if (query) {
-    if (query.visibility) {
-      whereCondition.visibility = query.visibility
+    if (query.visibility === 'private') {
+      whereCondition[Op.or].push({ visibility: { [Op.substring]: 'private' } })
     }
     if (query.owner) {
       whereCondition.owner = query.owner

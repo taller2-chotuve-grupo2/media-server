@@ -22,7 +22,7 @@ const resourceData = {
   title: 'RICHARD VIDEO',
   description: 'A description',
   location: 'Argentina',
-  visibility: 'Public',
+  visibility: 'public',
   reactions: [reactionData]
 }
 
