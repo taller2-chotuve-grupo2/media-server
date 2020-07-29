@@ -42,7 +42,12 @@ async function getPagedResult (query) {
   return await resourceRepository.getPagedResult(query.pageSize, query.pageNumber, query)
 }
 
+async function getFeed () {
+  return await resourceRepository.getFeed()
+}
+
 exports.getPagedResult = getPagedResult
+exports.getFeed = getFeed
 exports.deleteResourceById = deleteResourceById
 exports.patchResourceById = patchResourceById
 exports.getAllByDate = getAllByDate

@@ -15,6 +15,14 @@ router.get('/', async function (req, res) {
   return res.status(200).send(pagedResult)
 })
 
+router.get('/feed', async function (req, res) {
+  const result = await resourceService.getFeed()
+  if (result.count === 0) {
+    return res.status(404).send(result)
+  }
+  return res.status(200).send(result)
+})
+
 router.get('/:id/', async function (req, res) {
   const id = req.params.id
   const userQuery = req.query.username

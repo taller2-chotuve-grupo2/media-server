@@ -4,6 +4,7 @@
 
 const Resource = require('../models').Resource
 const Comment = require('../models').Comment
+const Reaction = require('../models').Reaction
 const Op = require('../models').Sequelize.Op
 
 const resourceHelpers = require('../helpers/resources_helpers.js')
@@ -83,6 +84,20 @@ async function getPagedResult (pageSize, pageNumber, queryTitle) {
   return await resourceHelpers.getPagedResult(pageSize, pageNumber, queryTitle)
 }
 
+async function getFeed () {
+  const result = await Resource.findAll({
+    include: [{
+      model: Comment
+    },
+    {
+      model: Reaction
+    }]
+  })
+
+  return result
+}
+
+exports.getFeed = getFeed
 exports.getPagedResult = getPagedResult
 exports.deleteResource = deleteResource
 exports.getAllByDate = getAllByDate
