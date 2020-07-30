@@ -88,7 +88,7 @@ async function getPagedResult (pageSize, pageNumber, queryTitle) {
 
 async function getFeed () {
   const result = await Resource.findAll({
-    attributes: ['id', 'owner', 'createdAt', 'thumbnail']
+    attributes: ['id', 'owner', 'createdAt', 'thumbnail', 'title']
   })
 
   async function elementWithCounts (element) {
