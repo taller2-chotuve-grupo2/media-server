@@ -8,7 +8,7 @@ const Reaction = require('../models').Reaction
 const Op = require('../models').Sequelize.Op
 
 const resourceHelpers = require('../helpers/resources_helpers.js')
-const { Sequelize } = require('../models')
+// const { Sequelize } = require('../models')
 // const { where } = require('sequelize')
 
 async function createResource (resourceData) {
@@ -88,14 +88,7 @@ async function getPagedResult (pageSize, pageNumber, queryTitle) {
 
 async function getFeed () {
   const result = await Resource.findAll({
-    attributes:
-      ['id', 'owner', 'createdAt', 'thumbnail',
-        [Sequelize.fn('COUNT', Sequelize.col('Comments.id')), 'commentsCount']
-      ],
-    include: [{
-      model: Comment, attributes: []
-    }],
-    group: ['Resource.id']
+    attributes: ['id', 'owner', 'createdAt', 'thumbnail']
   })
 
   async function elementWithCounts (element) {
@@ -112,8 +105,14 @@ async function getFeed () {
         status: 'No me gusta'
       }
     })
+    const commentsCount = await Comment.count({
+      where: {
+        ResourceId: element.id
+      }
+    })
     elementJson.likesCount = likesCount
     elementJson.dislikesCount = dislikesCount
+    elementJson.commentsCount = commentsCount
     return elementJson
   }
 
