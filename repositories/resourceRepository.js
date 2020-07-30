@@ -90,7 +90,7 @@ async function getFeed () {
   const result = await Resource.findAll({
     attributes:
       ['id', 'owner', 'createdAt', 'thumbnail',
-        [Sequelize.fn('COUNT', Sequelize.col('comments.id')), 'commentsCount']
+        [Sequelize.fn('COUNT', Sequelize.col('Comments.id')), 'commentsCount']
       ],
     include: [{
       model: Comment, attributes: []
