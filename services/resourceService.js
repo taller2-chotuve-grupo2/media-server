@@ -42,8 +42,8 @@ async function getPagedResult (query) {
   return await resourceRepository.getPagedResult(query.pageSize, query.pageNumber, query)
 }
 
-async function getFeed () {
-  return await resourceRepository.getFeed()
+async function getFeed (queryParams = null) {
+  return await resourceRepository.getFeed(queryParams)
 }
 
 exports.getPagedResult = getPagedResult

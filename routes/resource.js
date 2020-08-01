@@ -16,7 +16,7 @@ router.get('/', async function (req, res) {
 })
 
 router.get('/feed', async function (req, res) {
-  const result = await resourceService.getFeed()
+  const result = await resourceService.getFeed(req.query)
   if (result.count === 0) {
     return res.status(404).send(result)
   }

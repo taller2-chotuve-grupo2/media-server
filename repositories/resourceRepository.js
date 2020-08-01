@@ -8,6 +8,7 @@ const Reaction = require('../models').Reaction
 const Op = require('../models').Sequelize.Op
 
 const resourceHelpers = require('../helpers/resources_helpers.js')
+// const { query } = require('winston')
 // const { Sequelize } = require('../models')
 // const { where } = require('sequelize')
 
@@ -86,9 +87,21 @@ async function getPagedResult (pageSize, pageNumber, queryTitle) {
   return await resourceHelpers.getPagedResult(pageSize, pageNumber, queryTitle)
 }
 
-async function getFeed () {
+async function getFeed (queryParams) {
+  const whereCondition = {}
+  whereCondition[Op.or] = [{ visibility: { [Op.substring]: 'public' } }]
+  if (queryParams) {
+    if (queryParams.visibility === 'private') {
+      whereCondition[Op.or].push({ visibility: { [Op.substring]: 'private' } })
+    }
+    if (queryParams.owner) {
+      whereCondition.owner = queryParams.owner
+    }
+  }
+
   const result = await Resource.findAll({
-    attributes: ['id', 'owner', 'createdAt', 'thumbnail', 'title']
+    attributes: ['id', 'owner', 'createdAt', 'thumbnail', 'title'],
+    where: whereCondition
   })
 
   async function elementWithCounts (element) {
@@ -117,8 +130,6 @@ async function getFeed () {
   }
 
   const resultJson = await Promise.all(result.map(async (el) => elementWithCounts(el)))
-
-  console.log(resultJson)
 
   return resultJson
 }
