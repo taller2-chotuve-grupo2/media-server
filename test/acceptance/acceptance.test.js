@@ -375,7 +375,6 @@ describe('End-to-End tests', () => {
     })
   })
 
-
   context('PATCH /resource/owner/{username}', () => {
     beforeEach('Generate Test Data', async () => {
       await dataCreator.seedAll()
@@ -386,21 +385,32 @@ describe('End-to-End tests', () => {
     })
 
     it('respond with 200 if patch succedeed', (done) => {
-      new_username = {owner: 'Ricardo'}
+      var newUsername = { owner: 'Ricardo' }
       request(app).patch('/resource/owner/RICHARDINHO').set('authorization', config.common.token)
-      .send(new_username)
+        .send(newUsername)
         .expect(response => {
           expect(response.statusCode).to.equal(200)
         })
         .end(done)
     })
 
-    // it('respond with 404 if resource not found', (done) => {
-    //   request(app).patch('/resource/2').set('authorization', config.common.token)
-    //     .expect(response => {
-    //       expect(response.statusCode).to.equal(404)
-    //     })
-    //     .end(done)
-    // })
+    it('update the owner for all videos of that owner', (done) => {
+      var newUsername = { owner: 'Ricardo' }
+      request(app).patch('/resource/owner/RICHARDINHO').set('authorization', config.common.token)
+        .send(newUsername)
+        .then(() => {
+          request(app).get('/resource/feed?owner=Ricardo').set('authorization', config.common.token)
+            .expect(response => {
+              expect(response.statusCode).to.equal(200)
+            }).end(done)
+        })
+    })
+
+    it('should return 400 on bad request', (done) => {
+      request(app).patch('/resource/owner/RICHARDINHO').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(400)
+        }).end(done)
+    })
   })
 })

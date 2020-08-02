@@ -134,6 +134,22 @@ async function getFeed (queryParams) {
   return resultJson
 }
 
+async function updateOwner (lastUsername, newUsername) {
+  var result = false
+  await Resource.update({ owner: newUsername }, {
+    where: {
+      owner: lastUsername
+    }
+  }).then(() => {
+    result = true
+  }).catch(() => {
+    result = false
+  })
+
+  return result
+}
+
+exports.updateOwner = updateOwner
 exports.getFeed = getFeed
 exports.getPagedResult = getPagedResult
 exports.deleteResource = deleteResource

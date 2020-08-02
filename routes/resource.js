@@ -17,7 +17,7 @@ router.get('/', async function (req, res) {
 
 router.get('/feed', async function (req, res) {
   const result = await resourceService.getFeed(req.query)
-  if (result.count === 0) {
+  if (result.length === 0) {
     return res.status(404).send(result)
   }
   return res.status(200).send(result)
@@ -145,8 +145,13 @@ router.delete('/:id', async function (req, res) {
 })
 
 router.patch('/owner/:username', async function (req, res) {
+  var lastUsername = req.params.username
+  var newUsername = req.body.owner
+  var result = await resourceService.updateOwnerToResources(lastUsername, newUsername)
+  if (!result) {
+    return res.sendStatus(400)
+  }
   return res.sendStatus(200)
 })
-
 
 module.exports = router

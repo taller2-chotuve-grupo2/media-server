@@ -46,6 +46,15 @@ async function getFeed (queryParams = null) {
   return await resourceRepository.getFeed(queryParams)
 }
 
+async function updateOwnerToResources (lastUsername, newUsername) {
+  if (newUsername === null || newUsername === undefined) {
+    return false
+  }
+
+  return await resourceRepository.updateOwner(lastUsername, newUsername)
+}
+
+exports.updateOwnerToResources = updateOwnerToResources
 exports.getPagedResult = getPagedResult
 exports.getFeed = getFeed
 exports.deleteResourceById = deleteResourceById
