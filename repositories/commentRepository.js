@@ -15,5 +15,14 @@ async function getOneById (id) {
   return comment
 }
 
+async function countCommentsForUsername (username) {
+  return await Comment.count({
+    where: {
+      owner: username
+    }
+  })
+}
+
+exports.countCommentsForUsername = countCommentsForUsername
 exports.createComment = createComment
 exports.getOneById = getOneById

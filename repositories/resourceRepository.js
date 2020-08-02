@@ -149,6 +149,15 @@ async function updateOwner (lastUsername, newUsername) {
   return result
 }
 
+async function countResourcesForUsername (username) {
+  return await Resource.count({
+    where: {
+      owner: username
+    }
+  })
+}
+
+exports.countResourcesForUsername = countResourcesForUsername
 exports.updateOwner = updateOwner
 exports.getFeed = getFeed
 exports.getPagedResult = getPagedResult

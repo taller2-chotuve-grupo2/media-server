@@ -54,6 +54,15 @@ async function updateOwnerToResources (lastUsername, newUsername) {
   return await resourceRepository.updateOwner(lastUsername, newUsername)
 }
 
+async function getResourceCountForUsername (username) {
+  if (username === null || username === undefined) {
+    return 0
+  }
+
+  return await resourceRepository.countResourcesForUsername(username)
+}
+
+exports.getResourceCountForUsername = getResourceCountForUsername
 exports.updateOwnerToResources = updateOwnerToResources
 exports.getPagedResult = getPagedResult
 exports.getFeed = getFeed

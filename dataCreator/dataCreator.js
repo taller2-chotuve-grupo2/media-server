@@ -10,7 +10,8 @@ const reactionData = {
 }
 
 const commentData = {
-  message: 'Buen video Richard!'
+  message: 'Buen video Richard!',
+  owner: 'RICHINHO'
 }
 
 const resourceData = {

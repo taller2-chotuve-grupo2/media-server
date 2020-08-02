@@ -33,5 +33,23 @@ async function getReactionsInformation (resourceId, ownerToSearch = null) {
   return reactionCount
 }
 
+async function getLikesCountForUsername (username) {
+  if (username === null || username === undefined) {
+    return 0
+  }
+
+  return await reactionRepository.countReactionsForUsername(username, 'Me gusta')
+}
+
+async function getDislikesCountForUsername (username) {
+  if (username === null || username === undefined) {
+    return 0
+  }
+
+  return await reactionRepository.countReactionsForUsername(username, 'No me gusta')
+}
+
+exports.getDislikesCountForUsername = getDislikesCountForUsername
+exports.getLikesCountForUsername = getLikesCountForUsername
 exports.getReactionsInformation = getReactionsInformation
 exports.reactToResource = reactToResource

@@ -46,6 +46,16 @@ async function getOwnerReactionToResource (idResource, owner) {
   })
 }
 
+async function countReactionsForUsername (username, type) {
+  return await Reaction.count({
+    where: {
+      owner: username,
+      status: type
+    }
+  })
+}
+
+exports.countReactionsForUsername = countReactionsForUsername
 exports.getOwnerReactionToResource = getOwnerReactionToResource
 exports.countReactionsForResourceId = countReactionsForResourceId
 exports.createReaction = createReaction

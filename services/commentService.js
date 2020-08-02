@@ -16,5 +16,14 @@ async function getCommentById (id) {
   return comment
 }
 
+async function getCommentCountForUsername (username) {
+  if (username === null || username === undefined) {
+    return 0
+  }
+
+  return await commentRepository.countCommentsForUsername(username)
+}
+
+exports.getCommentCountForUsername = getCommentCountForUsername
 exports.commentResource = commentResource
 exports.getCommentById = getCommentById

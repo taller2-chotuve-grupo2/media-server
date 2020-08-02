@@ -413,4 +413,33 @@ describe('End-to-End tests', () => {
         }).end(done)
     })
   })
+
+  context('GET /owners/{username}', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
+
+    afterEach('Clean tables', async () => {
+      await dataCreator.cleanTables()
+    })
+
+    it('should respond with 200', (done) => {
+      request(app).get('/owners/RICHARDINHO').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    it('should give media information', (done) => {
+      request(app).get('/owners/RICHARDINHO').set('authorization', config.common.token)
+        .expect(response => {
+          expect(response.body.resources).to.equal(2)
+          expect(response.body.comments).to.equal(0)
+          expect(response.body.likes).to.equal(0)
+          expect(response.body.dislikes).to.equal(0)
+        })
+        .end(done)
+    })
+  })
 })
