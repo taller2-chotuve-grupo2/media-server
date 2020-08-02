@@ -374,4 +374,33 @@ describe('End-to-End tests', () => {
         .end(done)
     })
   })
+
+
+  context('PATCH /resource/owner/{username}', () => {
+    beforeEach('Generate Test Data', async () => {
+      await dataCreator.seedAll()
+    })
+
+    afterEach('Clean tables', async () => {
+      await dataCreator.cleanTables()
+    })
+
+    it('respond with 200 if patch succedeed', (done) => {
+      new_username = {owner: 'Ricardo'}
+      request(app).patch('/resource/owner/RICHARDINHO').set('authorization', config.common.token)
+      .send(new_username)
+        .expect(response => {
+          expect(response.statusCode).to.equal(200)
+        })
+        .end(done)
+    })
+
+    // it('respond with 404 if resource not found', (done) => {
+    //   request(app).patch('/resource/2').set('authorization', config.common.token)
+    //     .expect(response => {
+    //       expect(response.statusCode).to.equal(404)
+    //     })
+    //     .end(done)
+    // })
+  })
 })

@@ -144,4 +144,9 @@ router.delete('/:id', async function (req, res) {
   return res.sendStatus(200)
 })
 
+router.patch('/owner/:username', async function (req, res) {
+  return res.sendStatus(200)
+})
+
+
 module.exports = router
